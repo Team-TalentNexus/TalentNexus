@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: TalentNexus
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: postgres
+    password: 1006
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      database: 1
+      port: 6379
+      host: localhost
+
+server:
+  port: 8081
