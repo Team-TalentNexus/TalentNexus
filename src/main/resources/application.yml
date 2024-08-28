@@ -2,9 +2,9 @@ spring:
   application:
     name: TalentNexus
   datasource:
-    url: jdbc:postgresql://localhost:5432/testdb
-    username: postgres
-    password: 1006
+    url: jdbc:postgresql://rm-cn-8ly3w3yz200011ho.rwlb.rds.aliyuncs.com:5432/testdb
+    username: psqluser
+    password: 031006wj-
     driver-class-name: org.postgresql.Driver
   data:
     redis:

@@ -6,6 +6,7 @@ import org.thirtysix.talentnexus.service.HelloService;
 
 @RestController
 @RequestMapping("/hello")
+@CrossOrigin(origins = "http://localhost:8082")
 public class HelloController {
     @Autowired
     HelloService helloService;
