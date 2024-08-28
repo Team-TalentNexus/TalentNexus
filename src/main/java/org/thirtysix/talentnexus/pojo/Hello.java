@@ -6,5 +6,5 @@ import lombok.Data;
 public class Hello {
     // Getters and Setters
     private Long id;
-    private String message;
+    private String m_message;
 }
