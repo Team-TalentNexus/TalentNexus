@@ -1,3 +1,6 @@
+CREATE TYPE gender_enum AS ENUM ('male', 'female', 'other');
+
+
 -- 求职者用户表 (job_seekers)
 CREATE TABLE job_seekers (
                              id SERIAL PRIMARY KEY,
@@ -6,7 +9,7 @@ CREATE TABLE job_seekers (
                              email VARCHAR(100) NOT NULL UNIQUE,
                              phone VARCHAR(20),
                              full_name VARCHAR(100) NOT NULL,
-                             gender ENUM('male', 'female', 'other'),
+                             gender gender_enum,
                              birth_date DATE,
                              address VARCHAR(255),
                              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -20,7 +23,7 @@ CREATE TABLE resumes (
                          title VARCHAR(100) NOT NULL,
                          summary TEXT,
                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 项目经历表 (project_experiences)
@@ -59,7 +62,7 @@ CREATE TABLE companies (
                            address VARCHAR(255),
                            description TEXT,
                            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                           updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 职位表 (job_positions)
@@ -74,7 +77,7 @@ CREATE TABLE job_positions (
                                is_active BOOLEAN NOT NULL DEFAULT TRUE,
                                is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
                                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                               updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                               updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 求职申请表 (job_applications)
