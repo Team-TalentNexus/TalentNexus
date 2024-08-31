@@ -37,7 +37,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         if (!StringUtils.hasText(seeker.getUsername())) {
             return "username_empty";
         }
-        if (!StringUtils.hasText(seeker.getPasswordHash())) {
+        if (!StringUtils.hasText(seeker.getPassword())) {
             return "password_empty";
         }
         if (!StringUtils.hasText(seeker.getEmail()) || !isValidEmail(seeker.getEmail())) {
@@ -62,8 +62,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         }
 
         //密码加密
-        seeker.setPasswordHash(PasswordUtil.hashPassword(seeker.getPasswordHash()));
-        
+        seeker.setPassword(PasswordUtil.hashPassword(seeker.getPassword()));
+
         try {
             jobSeekerMapper.insertJobSeeker(seeker);
         } catch (Exception e) {
