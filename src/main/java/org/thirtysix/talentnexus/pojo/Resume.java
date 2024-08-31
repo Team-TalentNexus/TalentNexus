@@ -2,6 +2,7 @@ package org.thirtysix.talentnexus.pojo;
 
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class Resume {
@@ -11,4 +12,6 @@ public class Resume {
     private String summary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    List<ProjectExperience> projectExperiences;
+    List<WorkExperience> workExperiences;
 }
