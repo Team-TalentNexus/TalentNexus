@@ -39,7 +39,7 @@ public class JobSeekerController {
         System.out.println(seeker.getEmail());
         String res = jobSeekerService.register(seeker);
         return switch (res) {
-            case "dup" -> ApiResponse.error(409, "用户名重复");
+            case "dup" -> ApiResponse.error(409, "用户名或邮箱已存在");
             case "ok" -> ApiResponse.success("Success");
             case "err" -> ApiResponse.error(500, "服务器内部错误");
             default -> ApiResponse.error(400, res);

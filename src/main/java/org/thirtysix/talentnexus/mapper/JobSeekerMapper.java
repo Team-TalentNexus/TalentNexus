@@ -17,4 +17,7 @@ public interface JobSeekerMapper {
 
     @Select("SELECT count(*) FROM job_seekers WHERE username = #{username}")
     Integer getUsernameCount(String username);
+
+    @Select("SELECT count(*) FROM job_seekers WHERE email = #{email}")
+    Integer getEmailCount(String email);
 }

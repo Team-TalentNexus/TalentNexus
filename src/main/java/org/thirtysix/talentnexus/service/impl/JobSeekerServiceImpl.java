@@ -1,5 +1,6 @@
 package org.thirtysix.talentnexus.service.impl;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -8,11 +9,11 @@ import org.thirtysix.talentnexus.mapper.JobSeekerMapper;
 import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.utl.PasswordUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 @Service
 public class JobSeekerServiceImpl implements JobSeekerService {
-    private static final Logger LOGGER = Logger.getLogger(JobSeekerServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(JobSeekerServiceImpl.class);
 
     @Autowired
     JobSeekerMapper jobSeekerMapper;
@@ -52,6 +53,14 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         if (cnt != 0) {
             return "dup";
         }
+
+        // 验证邮箱是否已存在
+        String email = seeker.getEmail();
+        cnt = jobSeekerMapper.getEmailCount(email);
+        if (cnt != 0) {
+            return "dup";
+        }
+
 
         try {
             jobSeekerMapper.insertJobSeeker(seeker);
