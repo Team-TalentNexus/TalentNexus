@@ -12,6 +12,6 @@ public class Resume {
     private String summary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    List<ProjectExperience> projectExperiences;
-    List<WorkExperience> workExperiences;
+    private List<ProjectExperience> projectExperiences;
+    private List<WorkExperience> workExperiences;
 }
