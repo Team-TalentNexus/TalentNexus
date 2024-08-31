@@ -61,7 +61,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             return "dup";
         }
 
-
+        //密码加密
+        seeker.setPasswordHash(PasswordUtil.hashPassword(seeker.getPasswordHash()));
+        
         try {
             jobSeekerMapper.insertJobSeeker(seeker);
         } catch (Exception e) {
