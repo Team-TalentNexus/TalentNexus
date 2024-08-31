@@ -34,6 +34,11 @@ public class JobSeekerController {
         }
     }
 
+    /**
+     * 求职者注册接口
+     * @param seeker 求职者用户数据
+     * @return 注册结果
+     */
     @PostMapping("/register")
     public ApiResponse<String> register(@RequestBody JobSeeker seeker) {
         System.out.println(seeker.getEmail());
