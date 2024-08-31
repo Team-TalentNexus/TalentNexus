@@ -1,15 +1,12 @@
-CREATE TYPE gender_enum AS ENUM ('male', 'female', 'other');
-
-
 -- 求职者用户表 (job_seekers)
 CREATE TABLE job_seekers (
                              id SERIAL PRIMARY KEY,
                              username VARCHAR(50) NOT NULL UNIQUE,
-                             password_hash VARCHAR(255) NOT NULL,
+                             password VARCHAR(255) NOT NULL,
                              email VARCHAR(100) NOT NULL UNIQUE,
                              phone VARCHAR(20),
                              full_name VARCHAR(100) NOT NULL,
-                             gender gender_enum,
+                             gender VARCHAR(10),
                              birth_date DATE,
                              address VARCHAR(255),
                              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -54,7 +51,7 @@ CREATE TABLE work_experiences (
 CREATE TABLE companies (
                            id SERIAL PRIMARY KEY,
                            username VARCHAR(50) NOT NULL UNIQUE,
-                           password_hash VARCHAR(255) NOT NULL,
+                           password VARCHAR(255) NOT NULL,
                            company_name VARCHAR(100) NOT NULL UNIQUE,
                            email VARCHAR(100) NOT NULL UNIQUE,
                            phone_number VARCHAR(15),

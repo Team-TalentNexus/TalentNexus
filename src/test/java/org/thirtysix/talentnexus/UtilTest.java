@@ -7,6 +7,10 @@ public class UtilTest {
     @Test
     void testHashPassword() {
         String pswd = "123456";
+        String email = "a@bcom";
+        if(email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            System.out.println("yes");
+        }
         System.out.println(PasswordUtil.hashPassword(pswd));
     }
 }

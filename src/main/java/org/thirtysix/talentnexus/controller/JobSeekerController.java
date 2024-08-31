@@ -3,6 +3,7 @@ package org.thirtysix.talentnexus.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.JobSeekerLoginDto;
+import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.utl.ApiResponse;
 import org.thirtysix.talentnexus.utl.ConstUtil;
@@ -31,6 +32,18 @@ public class JobSeekerController {
         } else {
             return ApiResponse.error(401, "Invalid credentials");
         }
+    }
+
+    @PostMapping("/register")
+    public ApiResponse<String> register(@RequestBody JobSeeker seeker) {
+        System.out.println(seeker.getEmail());
+        String res = jobSeekerService.register(seeker);
+        return switch (res) {
+            case "dup" -> ApiResponse.error(409, "用户名或邮箱已存在");
+            case "ok" -> ApiResponse.success("Success");
+            case "err" -> ApiResponse.error(500, "服务器内部错误");
+            default -> ApiResponse.error(400, res);
+        };
     }
 
     /**
