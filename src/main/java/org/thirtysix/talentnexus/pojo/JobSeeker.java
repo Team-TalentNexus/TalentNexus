@@ -12,13 +12,9 @@ public class JobSeeker {
     private String email;
     private String phone;
     private String fullName;
-    private GenderEnum gender;
+    private String gender;
     private LocalDate birthDate;
     private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-}
-
-enum GenderEnum {
-    MALE, FEMALE, OTHER
 }
