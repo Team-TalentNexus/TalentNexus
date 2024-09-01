@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class PasswordUtil {
 
-    private static final String SALT = "your-secure-salt"; // 可选：加盐处理
+    private static final String SALT = "holo@13928_ABC"; // 可选：加盐处理
 
     /**
      * 使用SHA-256加密密码
