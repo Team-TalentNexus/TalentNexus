@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.thirtysix.talentnexus.utl.JwtUtils;
+import org.thirtysix.talentnexus.util.JwtUtils;
 
 import java.io.IOException;
 
@@ -23,7 +23,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                 request.setAttribute("userClaims", claims);
                 request.setAttribute("username", username);
                 request.setAttribute("role", role);
-                System.out.println(role);
                 return true;
             } catch (Exception e) {
                 try {

@@ -8,7 +8,7 @@ import org.thirtysix.talentnexus.dto.JobSeekerLoginDto;
 import org.thirtysix.talentnexus.mapper.JobSeekerMapper;
 import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.JobSeekerService;
-import org.thirtysix.talentnexus.utl.PasswordUtil;
+import org.thirtysix.talentnexus.util.PasswordUtil;
 import org.apache.logging.log4j.Logger;
 
 @Service
@@ -71,6 +71,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
             return "err";
         }
         return "ok";
+    }
+
+    @Override
+    public JobSeeker getByUsername(String username) {
+        return jobSeekerMapper.getJobSeekerByUsername(username);
     }
 
     // 简单的电子邮件验证
