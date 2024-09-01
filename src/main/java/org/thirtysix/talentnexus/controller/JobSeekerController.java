@@ -1,5 +1,6 @@
 package org.thirtysix.talentnexus.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.JobSeekerLoginDto;
@@ -8,6 +9,8 @@ import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.util.ApiResponse;
 import org.thirtysix.talentnexus.util.ConstUtil;
 import org.thirtysix.talentnexus.util.JwtUtils;
+
+import java.net.http.HttpRequest;
 
 /**
  * 求职者
@@ -52,17 +55,34 @@ public class JobSeekerController {
     }
 
     /**
-     * 根据用户名获取用户
-     * @param username
-     * @return
+     * 根据用户名获取用户信息
+     * @param username 用户名
+     * @return 用户信息
      */
     @GetMapping("/api/{username}")
-    public ApiResponse<Integer> getIdByUsername(@PathVariable String username) {
-        System.out.println(username);
-        Integer id = jobSeekerService.getIdByUsername(username);
-        if(id != null) {
-            return ApiResponse.success(id);
+    public ApiResponse<JobSeeker> getIdByUsername(@PathVariable String username, HttpServletRequest request) {
+        System.out.println("user" + username);
+        if (username == null || username.trim().isEmpty() || username.trim().equals(" ")) {
+            return ApiResponse.error(400, "用户名为空");
         }
+
+        String currentUsername = (String) request.getAttribute("username");
+        String role = (String) request.getAttribute("role");
+
+        // 检查是否在访问他人信息
+        if (!username.equals(currentUsername)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        if (role == null || !role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        JobSeeker seeker = jobSeekerService.getByUsername(username);
+        if (seeker != null) {
+            return ApiResponse.success(seeker);
+        }
+
         return ApiResponse.error(404, "用户名不存在");
     }
 

@@ -23,7 +23,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                 request.setAttribute("userClaims", claims);
                 request.setAttribute("username", username);
                 request.setAttribute("role", role);
-                System.out.println(role);
                 return true;
             } catch (Exception e) {
                 try {

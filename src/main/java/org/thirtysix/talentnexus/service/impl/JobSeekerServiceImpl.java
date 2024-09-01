@@ -74,8 +74,8 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     }
 
     @Override
-    public Integer getIdByUsername(String username) {
-        return jobSeekerMapper.getIdByUsername(username);
+    public JobSeeker getByUsername(String username) {
+        return jobSeekerMapper.getJobSeekerByUsername(username);
     }
 
     // 简单的电子邮件验证
