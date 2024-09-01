@@ -2,7 +2,7 @@ spring:
   application:
     name: TalentNexus
   datasource:
-    url: jdbc:postgresql://rm-cn-8ly3w3yz200011ho.rwlb.rds.aliyuncs.com:5432/testdb
+    url: jdbc:postgresql://rm-cn-8ly3w3yz200011ho.rwlb.rds.aliyuncs.com:5432/talentnexus
     username: psqluser
     password: 031006wj-
     driver-class-name: org.postgresql.Driver
@@ -11,6 +11,10 @@ spring:
       database: 1
       port: 6379
       host: localhost
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 
 server:
   port: 8081
