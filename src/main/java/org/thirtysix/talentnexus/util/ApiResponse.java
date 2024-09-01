@@ -1,4 +1,4 @@
-package org.thirtysix.talentnexus.utl;
+package org.thirtysix.talentnexus.util;
 
 import lombok.Getter;
 import lombok.Setter;

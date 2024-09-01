@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.JobSeekerLoginDto;
 import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.JobSeekerService;
-import org.thirtysix.talentnexus.utl.ApiResponse;
-import org.thirtysix.talentnexus.utl.ConstUtil;
-import org.thirtysix.talentnexus.utl.JwtUtils;
+import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
+import org.thirtysix.talentnexus.util.JwtUtils;
 
 /**
  * 求职者
@@ -49,6 +49,21 @@ public class JobSeekerController {
             case "err" -> ApiResponse.error(500, "服务器内部错误");
             default -> ApiResponse.error(400, res);
         };
+    }
+
+    /**
+     * 根据用户名获取用户
+     * @param username
+     * @return
+     */
+    @GetMapping("/api/{username}")
+    public ApiResponse<Integer> getIdByUsername(@PathVariable String username) {
+        System.out.println(username);
+        Integer id = jobSeekerService.getIdByUsername(username);
+        if(id != null) {
+            return ApiResponse.success(id);
+        }
+        return ApiResponse.error(404, "用户名不存在");
     }
 
     /**

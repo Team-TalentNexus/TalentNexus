@@ -20,4 +20,7 @@ public interface JobSeekerMapper {
 
     @Select("SELECT count(*) FROM job_seekers WHERE email = #{email}")
     Integer getEmailCount(String email);
+
+    @Select("SELECT id FROM job_seekers WHERE username = #{username}")
+    Integer getIdByUsername(String username);
 }

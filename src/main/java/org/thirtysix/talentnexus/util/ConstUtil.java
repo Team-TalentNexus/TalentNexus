@@ -1,4 +1,4 @@
-package org.thirtysix.talentnexus.utl;
+package org.thirtysix.talentnexus.util;
 
 public class ConstUtil {
     public static final String SEEKER = "Seeker";

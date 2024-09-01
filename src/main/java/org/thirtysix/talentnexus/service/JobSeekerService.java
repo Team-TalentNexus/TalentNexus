@@ -6,4 +6,5 @@ import org.thirtysix.talentnexus.pojo.JobSeeker;
 public interface JobSeekerService {
     boolean login(JobSeekerLoginDto loginDto);
     String register(JobSeeker seeker);
+    Integer getIdByUsername(String username);
 }

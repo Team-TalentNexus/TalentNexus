@@ -1,7 +1,7 @@
 package org.thirtysix.talentnexus;
 
 import org.junit.jupiter.api.Test;
-import org.thirtysix.talentnexus.utl.PasswordUtil;
+import org.thirtysix.talentnexus.util.PasswordUtil;
 
 public class UtilTest {
     @Test

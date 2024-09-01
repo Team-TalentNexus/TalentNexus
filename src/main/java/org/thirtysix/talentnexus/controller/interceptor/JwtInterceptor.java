@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.thirtysix.talentnexus.utl.JwtUtils;
+import org.thirtysix.talentnexus.util.JwtUtils;
 
 import java.io.IOException;
 
