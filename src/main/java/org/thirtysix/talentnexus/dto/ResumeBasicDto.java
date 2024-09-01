@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ResumeBasicDto {
+    private Integer jobSeekerId;
     private String title;
     private String summary;
 }

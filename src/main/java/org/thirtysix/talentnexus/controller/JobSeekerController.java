@@ -20,7 +20,7 @@ import java.net.http.HttpRequest;
 @CrossOrigin(origins = "http://localhost:8082")
 public class JobSeekerController {
     @Autowired
-    JobSeekerService jobSeekerService;
+    private JobSeekerService jobSeekerService;
 
     /**
      * 求职者登录接口

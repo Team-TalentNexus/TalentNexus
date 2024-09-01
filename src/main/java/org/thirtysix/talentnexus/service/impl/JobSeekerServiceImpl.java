@@ -16,7 +16,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private static final Logger LOGGER = LogManager.getLogger(JobSeekerServiceImpl.class);
 
     @Autowired
-    JobSeekerMapper jobSeekerMapper;
+    private JobSeekerMapper jobSeekerMapper;
 
     @Override
     public boolean login(JobSeekerLoginDto loginDto) {
