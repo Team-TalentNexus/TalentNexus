@@ -1,2 +1,8 @@
-package org.thirtysix.talentnexus.mapper;public interface ResumeMapper {
+package org.thirtysix.talentnexus.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ResumeMapper {
+
 }
