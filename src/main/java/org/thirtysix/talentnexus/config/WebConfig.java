@@ -15,6 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/seeker/**") // 需要保护的路径
+                .addPathPatterns("/resume")
                 .excludePathPatterns("/seeker/login", "/seeker/register"); // 不需要拦截的路径
     }
 }

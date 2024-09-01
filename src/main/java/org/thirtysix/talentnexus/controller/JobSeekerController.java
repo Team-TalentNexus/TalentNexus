@@ -44,7 +44,6 @@ public class JobSeekerController {
      */
     @PostMapping("/register")
     public ApiResponse<String> register(@RequestBody JobSeeker seeker) {
-        System.out.println(seeker.getEmail());
         String res = jobSeekerService.register(seeker);
         return switch (res) {
             case "dup" -> ApiResponse.error(409, "用户名或邮箱已存在");

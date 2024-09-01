@@ -78,6 +78,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         return jobSeekerMapper.getJobSeekerByUsername(username);
     }
 
+    @Override
+    public Integer getIdByUsername(String username) {
+        return jobSeekerMapper.getJobSeekerByUsername(username).getId();
+    }
+
     // 简单的电子邮件验证
     private boolean isValidEmail(String email) {
         return email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
