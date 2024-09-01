@@ -61,7 +61,6 @@ public class JobSeekerController {
      */
     @GetMapping("/api/{username}")
     public ApiResponse<JobSeeker> getIdByUsername(@PathVariable String username, HttpServletRequest request) {
-        System.out.println("user" + username);
         if (username == null || username.trim().isEmpty() || username.trim().equals(" ")) {
             return ApiResponse.error(400, "用户名为空");
         }
