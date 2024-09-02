@@ -50,4 +50,9 @@ public class ResumeServiceImpl implements ResumeService {
         return resume;
     }
 
+    @Override
+    public Integer getIdByJobSeekerId(Integer id) {
+        return resumeMapper.getIdByJobSeekerId(id);
+    }
+
 }

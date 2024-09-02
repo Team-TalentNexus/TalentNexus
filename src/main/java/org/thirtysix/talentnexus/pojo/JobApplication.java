@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class JobApplication {
-    private int id;
-    private int jobSeekerId;
-    private int jobPositionId;
-    private Integer resumeId;  // nullable
+    private Integer id;
+    private Integer jobSeekerId;
+    private Integer jobPositionId;
+    private Integer resumeId;
     private LocalDateTime applicationDate;
     private String status;
     private String feedback;
