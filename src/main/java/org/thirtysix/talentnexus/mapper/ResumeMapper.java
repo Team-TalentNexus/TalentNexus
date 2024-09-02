@@ -18,4 +18,7 @@ public interface ResumeMapper {
 
     @Select("SELECT id, job_seeker_id, title, summary, created_at, updated_at FROM resumes WHERE job_seeker_id = #{jobSeekerId}")
     Resume getResumeByJobSeekerId(Integer jobSeekerId);
+
+    @Select("SELECT id FROM resumes WHERE job_seeker_id = #{id}")
+    Integer getIdByJobSeekerId(Integer id);
 }

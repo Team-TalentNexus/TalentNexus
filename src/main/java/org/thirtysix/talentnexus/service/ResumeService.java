@@ -9,4 +9,5 @@ public interface ResumeService {
     Integer getJobSeekerIdById(Integer id);
 
     Resume getResumeByJobSeekerId(Integer jobSeekerId);
+    Integer getIdByJobSeekerId(Integer id);
 }

@@ -12,8 +12,7 @@ public class JobPosition {
     private String location;
     private String employmentType;
     private String salaryRange;
-    private boolean isActive;
-    private boolean isDeleted;
+    private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
