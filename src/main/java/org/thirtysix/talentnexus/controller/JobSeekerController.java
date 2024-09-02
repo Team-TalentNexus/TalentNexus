@@ -20,7 +20,7 @@ import java.net.http.HttpRequest;
 @CrossOrigin(origins = "http://localhost:8082")
 public class JobSeekerController {
     @Autowired
-    JobSeekerService jobSeekerService;
+    private JobSeekerService jobSeekerService;
 
     /**
      * 求职者登录接口
@@ -44,7 +44,6 @@ public class JobSeekerController {
      */
     @PostMapping("/register")
     public ApiResponse<String> register(@RequestBody JobSeeker seeker) {
-        System.out.println(seeker.getEmail());
         String res = jobSeekerService.register(seeker);
         return switch (res) {
             case "dup" -> ApiResponse.error(409, "用户名或邮箱已存在");

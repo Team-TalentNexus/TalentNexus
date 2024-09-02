@@ -16,7 +16,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     private static final Logger LOGGER = LogManager.getLogger(JobSeekerServiceImpl.class);
 
     @Autowired
-    JobSeekerMapper jobSeekerMapper;
+    private JobSeekerMapper jobSeekerMapper;
 
     @Override
     public boolean login(JobSeekerLoginDto loginDto) {
@@ -76,6 +76,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     @Override
     public JobSeeker getByUsername(String username) {
         return jobSeekerMapper.getJobSeekerByUsername(username);
+    }
+
+    @Override
+    public Integer getIdByUsername(String username) {
+        return jobSeekerMapper.getJobSeekerByUsername(username).getId();
     }
 
     // 简单的电子邮件验证
