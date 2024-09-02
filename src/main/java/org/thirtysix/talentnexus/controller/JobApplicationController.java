@@ -27,6 +27,7 @@ public class JobApplicationController {
     @Autowired
     private JobPositionService jobPositionService;
 
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     @PostMapping("/{job_position_id}")
@@ -34,7 +35,7 @@ public class JobApplicationController {
         // 判断是否存在该职位
         String title = jobPositionService.getTitleById(jobPositionId);
         if(title == null) {
-            return ApiResponse.error(400, "该职位不存在或已失效");
+            return ApiResponse.error(404, "该职位不存在或已失效");
         }
 
         JobApplication jobApplication = new JobApplication();
