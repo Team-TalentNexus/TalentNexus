@@ -12,7 +12,7 @@ import org.thirtysix.talentnexus.util.ApiResponse;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/seeker/project")
 @CrossOrigin(origins = "http://localhost:8082")
 public class ProjectExperienceController {
     @Autowired

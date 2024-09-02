@@ -11,7 +11,7 @@ import org.thirtysix.talentnexus.util.ApiResponse;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/resume")
+@RequestMapping("/seeker/resume")
 @CrossOrigin(origins = "http://localhost:8082")
 public class ResumeController {
     @Autowired
