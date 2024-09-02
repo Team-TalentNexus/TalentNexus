@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.ResumeBasicDto;
+import org.thirtysix.talentnexus.pojo.Resume;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ResumeService;
 import org.thirtysix.talentnexus.util.ApiResponse;
@@ -32,5 +33,14 @@ public class ResumeController {
             return ApiResponse.success(resumeBasicDto.getId());
         }
         return ApiResponse.error(500, "创建简历失败");
+    }
+
+    @GetMapping
+    public ApiResponse<Resume> getResume(HttpServletRequest request) {
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+        Resume resume = resumeService.getResumeByJobSeekerId(currentId);
+
+        return ApiResponse.success(resume);
     }
 }

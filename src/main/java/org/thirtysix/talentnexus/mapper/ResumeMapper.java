@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.thirtysix.talentnexus.dto.ResumeBasicDto;
+import org.thirtysix.talentnexus.pojo.Resume;
 
 @Mapper
 public interface ResumeMapper {
@@ -14,4 +15,7 @@ public interface ResumeMapper {
 
     @Select("SELECT job_seeker_id FROM resumes WHERE id = #{id}")
     Integer getJobSeekerIdById(Integer id);
+
+    @Select("SELECT id, job_seeker_id, title, summary FROM resumes WHERE job_seeker_id = #{jobSeekerId}")
+    Resume getResumeByJobSeekerId(Integer jobSeekerId);
 }
