@@ -7,4 +7,5 @@ public interface JobSeekerService {
     boolean login(JobSeekerLoginDto loginDto);
     String register(JobSeeker seeker);
     JobSeeker getByUsername(String username);
+    Integer getIdByUsername(String username);
 }
