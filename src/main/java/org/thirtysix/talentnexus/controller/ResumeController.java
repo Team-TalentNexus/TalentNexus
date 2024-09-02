@@ -21,7 +21,7 @@ public class ResumeController {
     private JobSeekerService jobSeekerService;
 
     @PostMapping
-    public ApiResponse<String> createResume(@RequestBody ResumeBasicDto resumeBasicDto, HttpServletRequest request) {
+    public ApiResponse<Integer> createResume(@RequestBody ResumeBasicDto resumeBasicDto, HttpServletRequest request) {
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
         if(!Objects.equals(currentId, resumeBasicDto.getJobSeekerId())) {
@@ -29,7 +29,7 @@ public class ResumeController {
         }
 
         if(resumeService.createResume(resumeBasicDto)) {
-            return ApiResponse.success("");
+            return ApiResponse.success(resumeBasicDto.getId());
         }
         return ApiResponse.error(500, "创建简历失败");
     }

@@ -26,4 +26,9 @@ public class ResumeServiceImpl implements ResumeService {
         }
     }
 
+    @Override
+    public Integer getJobSeekerIdById(Integer id) {
+        return resumeMapper.getJobSeekerIdById(id);
+    }
+
 }

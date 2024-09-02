@@ -4,4 +4,6 @@ import org.thirtysix.talentnexus.dto.ResumeBasicDto;
 
 public interface ResumeService {
     boolean createResume(ResumeBasicDto resumeBasicDto);
+
+    Integer getJobSeekerIdById(Integer id);
 }
