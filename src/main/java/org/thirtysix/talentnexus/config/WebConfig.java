@@ -16,7 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/seeker/**") // 需要保护的路径
                 .addPathPatterns("/resume")
-                .excludePathPatterns("/seeker/login", "/seeker/register"); // 不需要拦截的路径
+                .addPathPatterns("/project")
+                .addPathPatterns("/work")
+                .excludePathPatterns("/seeker/login", "/seeker/register") // 不需要拦截的路径
+                .excludePathPatterns("/company/login", "/company/register");
+
     }
 }
 
