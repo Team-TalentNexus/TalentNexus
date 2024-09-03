@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class Company {
     private int id;
     private String username;
-    private String passwordHash;
+    private String password;
     private String companyName;
     private String email;
     private String phoneNumber;
