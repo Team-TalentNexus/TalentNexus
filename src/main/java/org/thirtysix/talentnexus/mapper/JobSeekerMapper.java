@@ -23,4 +23,7 @@ public interface JobSeekerMapper {
 
     @Select("SELECT * FROM job_seekers WHERE username = #{username}")
     JobSeeker getJobSeekerByUsername(String username);
+
+    @Select("SELECT * FROM job_seekers WHERE id = #{id}")
+    JobSeeker getJobSeekerById(Integer id);
 }

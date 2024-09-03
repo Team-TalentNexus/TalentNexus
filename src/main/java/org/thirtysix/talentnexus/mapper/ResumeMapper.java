@@ -21,4 +21,13 @@ public interface ResumeMapper {
 
     @Delete("DELETE FROM resumes WHERE job_seeker_id = #{id}")
     void deleteResumeByJobSeekerId(Integer id);
+
+    @Select("SELECT COUNT(*) > 0 AS is_visible " +
+            "FROM resumes r " +
+            "JOIN job_applications ja ON r.id = ja.resume_id " +
+            "JOIN job_positions jp ON ja.job_position_id = jp.id " +
+            "WHERE r.id = #{resumeId} " +
+            "AND jp.company_id = #{companyId} " +
+            "AND ja.active = TRUE")
+    boolean isResumeVisibleToCompany(Integer resumeId, Integer companyId);
 }

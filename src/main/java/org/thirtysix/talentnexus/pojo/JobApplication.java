@@ -11,5 +11,6 @@ public class JobApplication {
     private Integer resumeId;
     private LocalDateTime applicationDate;
     private String status;
+    private boolean active;
     private String feedback;
 }
