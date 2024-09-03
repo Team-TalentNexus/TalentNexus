@@ -8,6 +8,8 @@ import org.thirtysix.talentnexus.mapper.JobApplicationMapper;
 import org.thirtysix.talentnexus.pojo.JobApplication;
 import org.thirtysix.talentnexus.service.JobApplicationService;
 
+import java.util.List;
+
 @Service
 public class JobApplicationServiceImpl implements JobApplicationService {
     private static final Logger LOGGER = LogManager.getLogger(JobApplicationServiceImpl.class);
@@ -25,5 +27,15 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<JobApplication> getApplicationByJobSeekerId(Integer id) {
+        try {
+            return jobApplicationMapper.getApplicationBuJobSeekerId(id);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while retrieving job applications for job seeker ID: {}", id, e);
+            throw new RuntimeException("Failed to retrieve job applications for job seeker ID: " + id, e);
+        }
     }
 }

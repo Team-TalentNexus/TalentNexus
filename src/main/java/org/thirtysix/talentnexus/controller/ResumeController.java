@@ -52,4 +52,15 @@ public class ResumeController {
 
         return ApiResponse.success(resume);
     }
+
+    @DeleteMapping
+    public ApiResponse<String> deleteResume(HttpServletRequest request) {
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+        if(resumeService.deleteResumeByJobSeekerId(currentId)) {
+            return ApiResponse.success("");
+        }
+
+        return ApiResponse.error(500, "删除简历失败");
+    }
 }
