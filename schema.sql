@@ -86,3 +86,13 @@ CREATE TABLE job_applications (
                                   status VARCHAR(50) NOT NULL,
                                   feedback TEXT
 );
+
+-- 面试邀请与反馈
+CREATE TABLE interviews (
+    id SERIAL PRIMARY KEY ,
+    company_id INT NOT NULL REFERENCES companies(id),
+    job_seeker_id INT NOT NULL REFERENCES job_seekers(id),
+    start_date TIMESTAMP NOT NULL,
+    end_date TIMESTAMP NOT NULL,
+    feedback TEXT
+)
