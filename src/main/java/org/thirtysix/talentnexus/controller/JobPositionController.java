@@ -7,6 +7,7 @@ import org.thirtysix.talentnexus.pojo.JobPosition;
 import org.thirtysix.talentnexus.service.CompanyService;
 import org.thirtysix.talentnexus.service.JobPositionService;
 import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
 
 @RestController
 @RequestMapping("/company/position")
@@ -20,6 +21,11 @@ public class JobPositionController {
 
     @PostMapping
     public ApiResponse<String> addJobPosition(@RequestBody JobPosition jobPosition, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.COMPANY)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
         if(jobPosition == null) {
             return ApiResponse.error(400, "Bad Request");
         }

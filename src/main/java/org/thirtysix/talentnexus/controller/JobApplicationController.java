@@ -10,6 +10,7 @@ import org.thirtysix.talentnexus.service.JobPositionService;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ResumeService;
 import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
 
 import java.util.List;
 
@@ -34,6 +35,10 @@ public class JobApplicationController {
 
     @PostMapping("/{job_position_id}")
     public ApiResponse<String> submitApplication(@PathVariable("job_position_id") Integer jobPositionId, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
         // 判断是否存在该职位
         String title = jobPositionService.getTitleById(jobPositionId);
         if(title == null) {

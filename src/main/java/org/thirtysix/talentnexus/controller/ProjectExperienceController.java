@@ -8,6 +8,7 @@ import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ProjectExperienceService;
 import org.thirtysix.talentnexus.service.ResumeService;
 import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
 
 import java.util.Objects;
 
@@ -26,6 +27,11 @@ public class ProjectExperienceController {
 
     @PostMapping
     public ApiResponse<String> addProject(@RequestBody ProjectExperience projectExperience, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
 
