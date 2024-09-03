@@ -20,6 +20,9 @@ public class Resume {
     private String summary;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    String university;
+    String major;
+    String degree;
     private List<ProjectExperience> projectExperiences;
     private List<WorkExperience> workExperiences;
 }

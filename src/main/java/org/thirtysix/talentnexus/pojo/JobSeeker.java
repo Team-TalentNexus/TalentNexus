@@ -17,6 +17,7 @@ public class JobSeeker {
     private String address;
     private String university;
     private String major;
+    private String degree;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

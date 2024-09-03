@@ -55,28 +55,13 @@ public class JobSeekerController {
 
     /**
      * 根据用户名获取用户信息
-     * @param username 用户名
      * @return 用户信息
      */
-    @GetMapping("/api/{username}")
-    public ApiResponse<JobSeeker> getIdByUsername(@PathVariable String username, HttpServletRequest request) {
-        if (username == null || username.trim().isEmpty() || username.trim().equals(" ")) {
-            return ApiResponse.error(400, "用户名为空");
-        }
-
+    @GetMapping("/api/info")
+    public ApiResponse<JobSeeker> getIdByUsername(HttpServletRequest request) {
         String currentUsername = (String) request.getAttribute("username");
-        String role = (String) request.getAttribute("role");
 
-        // 检查是否在访问他人信息
-        if (!username.equals(currentUsername)) {
-            return ApiResponse.error(401, "没有权限");
-        }
-
-        if (role == null || !role.equals(ConstUtil.SEEKER)) {
-            return ApiResponse.error(401, "没有权限");
-        }
-
-        JobSeeker seeker = jobSeekerService.getByUsername(username);
+        JobSeeker seeker = jobSeekerService.getByUsername(currentUsername);
         if (seeker != null) {
             return ApiResponse.success(seeker);
         }
