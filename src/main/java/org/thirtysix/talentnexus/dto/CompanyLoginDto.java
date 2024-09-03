@@ -1,2 +1,9 @@
-package org.thirtysix.talentnexus.dto;public class CompanyLoginDto {
+package org.thirtysix.talentnexus.dto;
+
+import lombok.Data;
+
+@Data
+public class CompanyLoginDto {
+    String username;
+    String password;
 }
