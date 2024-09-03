@@ -13,4 +13,3 @@ public class JobApplication {
     private String status;
     private String feedback;
 }
-
