@@ -55,4 +55,16 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeMapper.getIdByJobSeekerId(id);
     }
 
+    @Override
+    public boolean deleteResumeByJobSeekerId(Integer id) {
+        try {
+            resumeMapper.deleteResumeByJobSeekerId(id);
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete resume: {}", id);
+            return false;
+        }
+
+        return true;
+    }
+
 }
