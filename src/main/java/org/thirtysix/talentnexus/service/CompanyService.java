@@ -9,4 +9,6 @@ public interface CompanyService {
     String register(Company company);
 
     Company getByUsername(String username);
+
+    Integer getCompanyIdByUsername(String username);
 }
