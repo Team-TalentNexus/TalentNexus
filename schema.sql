@@ -92,6 +92,8 @@ CREATE TABLE interviews (
     id SERIAL PRIMARY KEY ,
     company_id INT NOT NULL REFERENCES companies(id),
     job_seeker_id INT NOT NULL REFERENCES job_seekers(id),
+    job_application_id INT NOT NULL REFERENCES job_applications(id),
+    interview_link VARCHAR(30),
     start_date TIMESTAMP NOT NULL,
     end_date TIMESTAMP NOT NULL,
     feedback TEXT
