@@ -77,6 +77,11 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.getCompanyByUsername(username);
     }
 
+    @Override
+    public Integer getCompanyIdByUsername(String username) {
+        return getByUsername(username).getId();
+    }
+
     // 简单的电子邮件验证
     private boolean isValidEmail(String email) {
         return email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");

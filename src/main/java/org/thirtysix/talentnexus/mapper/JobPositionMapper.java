@@ -13,6 +13,6 @@ public interface JobPositionMapper {
     @Select("SELECT title FROM job_positions WHERE id = #{id} AND active = true")
     String getTitleById(Integer id);
 
-    @Insert("INSERT INTO job_positions(company_id, title, description, location, employment_type, salary_range) VALUES (#{companyId}, #{title}, #{description}, #{employmentType}, #{salaryRange})")
+    @Insert("INSERT INTO job_positions(company_id, title, description, location, employment_type, salary_range) VALUES (#{companyId}, #{title}, #{description}, #{location}, #{employmentType}, #{salaryRange})")
     void addJobPosition(JobPosition jobPosition);
 }
