@@ -15,6 +15,8 @@ public class JobSeeker {
     private String gender;
     private LocalDate birthDate;
     private String address;
+    private String university;
+    private String major;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
