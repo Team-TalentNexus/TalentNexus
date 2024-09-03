@@ -35,14 +35,8 @@ public class WorkExperienceController {
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
 
-        Integer resumeId = workExperience.getResumeId();
-
-        // 根据简历id获取用户id
-        Integer jobSeekerId = resumeService.getJobSeekerIdById(resumeId);
-
-        if(!Objects.equals(currentId, jobSeekerId)) {
-            return ApiResponse.error(401, "权限认证失败");
-        }
+        Integer resumeId = resumeService.getIdByJobSeekerId(currentId);
+        workExperience.setResumeId(resumeId);
 
         if(workExperienceService.add(workExperience)) {
             return ApiResponse.success("");

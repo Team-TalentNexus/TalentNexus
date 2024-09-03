@@ -9,6 +9,7 @@ import org.thirtysix.talentnexus.pojo.Resume;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ResumeService;
 import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
 
 import java.util.Objects;
 
@@ -57,6 +58,11 @@ public class ResumeController {
 
     @DeleteMapping
     public ApiResponse<String> deleteResume(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
         if(resumeService.deleteResumeByJobSeekerId(currentId)) {
