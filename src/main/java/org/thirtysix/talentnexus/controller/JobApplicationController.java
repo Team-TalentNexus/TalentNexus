@@ -11,6 +11,8 @@ import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ResumeService;
 import org.thirtysix.talentnexus.util.ApiResponse;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/seeker/apply")
 @CrossOrigin(origins = "http://localhost:8082")
@@ -57,4 +59,17 @@ public class JobApplicationController {
 
         return ApiResponse.error(500, "提交申请失败");
     }
+
+    @GetMapping
+    public ApiResponse<List<JobApplication>> getJobApplications(HttpServletRequest request) {
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+
+        try {
+            return ApiResponse.success(jobApplicationService.getApplicationByJobSeekerId(currentId));
+        } catch (Exception e) {
+            return ApiResponse.error(500, "查询失败");
+        }
+    }
+
 }
