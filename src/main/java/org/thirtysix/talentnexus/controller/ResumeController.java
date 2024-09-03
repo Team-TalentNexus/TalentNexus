@@ -49,7 +49,9 @@ public class ResumeController {
         resume.setPhone(jobSeeker.getPhone());
         resume.setGender(jobSeeker.getGender());
         resume.setAddress(jobSeeker.getAddress());
-
+        resume.setUniversity(jobSeeker.getUniversity());
+        resume.setMajor(jobSeeker.getMajor());
+        resume.setDegree(jobSeeker.getDegree());
         return ApiResponse.success(resume);
     }
 

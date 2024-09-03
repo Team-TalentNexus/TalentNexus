@@ -11,8 +11,8 @@ public interface JobSeekerMapper {
     @Select("SELECT password FROM job_seekers WHERE username = #{username}")
     String getPasswordByUsername(@Param("username") String username);
 
-    @Insert("INSERT INTO job_seekers (username, password, email, phone, full_name, gender, birth_date, address) " +
-            "VALUES (#{username}, #{password}, #{email}, #{phone}, #{fullName}, #{gender}, #{birthDate}, #{address})")
+    @Insert("INSERT INTO job_seekers (username, password, email, phone, full_name, gender, birth_date, address, university, major, degree) " +
+            "VALUES (#{username}, #{password}, #{email}, #{phone}, #{fullName}, #{gender}, #{birthDate}, #{address}, #{university}, #{major}, #{degree})")
     void insertJobSeeker(JobSeeker jobSeeker);
 
     @Select("SELECT count(*) FROM job_seekers WHERE username = #{username}")
