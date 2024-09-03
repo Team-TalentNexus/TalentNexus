@@ -1,0 +1,268 @@
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/controller/CompanyController.java b/src/main/java/org/thirtysix/talentnexus/controller/CompanyController.java[m
+[1mindex f804664..6ff488d 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/controller/CompanyController.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/controller/CompanyController.java[m
+[36m@@ -1,2 +1,94 @@[m
+[31m-package org.thirtysix.talentnexus.controller;public class CompanyController {[m
+[32m+[m[32mpackage org.thirtysix.talentnexus.controller;[m
+[32m+[m
+[32m+[m[32mimport jakarta.servlet.http.HttpServletRequest;[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.*;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.dto.CompanyLoginDto;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.pojo.Company;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.service.CompanyService;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.util.ApiResponse;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.util.ConstUtil;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.util.JwtUtils;[m
+[32m+[m
+[32m+[m[32m/**[m
+[32m+[m[32m * 公司[m
+[32m+[m[32m */[m
+[32m+[m[32m@RestController[m
+[32m+[m[32m@RequestMapping("/company")[m
+[32m+[m[32m@CrossOrigin(origins = "http://localhost:8082")[m
+[32m+[m[32mpublic class CompanyController {[m
+[32m+[m[32m    @Autowired[m
+[32m+[m
+[32m+[m[32m    CompanyService companyService;[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     *公司登录接口[m
+[32m+[m[32m     * @param loginDto 公司用户名和密码[m
+[32m+[m[32m     * @return ApiResponse 登陆成功data为JWT[m
+[32m+[m[32m     */[m
+[32m+[m[32m    @PostMapping("/login")[m
+[32m+[m[32m    public ApiResponse<String> login(@RequestBody CompanyLoginDto loginDto) {[m
+[32m+[m[32m        if(companyService.login(loginDto)) {[m
+[32m+[m[32m            String token = JwtUtils.generateToken(loginDto.getUsername(), ConstUtil.COMPANY);[m
+[32m+[m[32m            return ApiResponse.success(token);[m
+[32m+[m[32m        } else {[m
+[32m+[m[32m            return ApiResponse.error(401, "Invalid credentials");[m
+[32m+[m[32m        }[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * 公司注册接口[m
+[32m+[m[32m     * @param company 公司用户数据[m
+[32m+[m[32m     * @return 注册结果[m
+[32m+[m[32m     */[m
+[32m+[m[32m    @PostMapping("/register")[m
+[32m+[m[32m    public ApiResponse<String> register(@RequestBody Company company) {[m
+[32m+[m[32m        String res = companyService.register(company);[m
+[32m+[m[32m        return switch (res) {[m
+[32m+[m[32m            case "dup" -> ApiResponse.error(409, "用户名或邮箱已存在");[m
+[32m+[m[32m            case "ok" -> ApiResponse.success("Success");[m
+[32m+[m[32m            case "err" -> ApiResponse.error(500, "服务器内部错误");[m
+[32m+[m[32m            default -> ApiResponse.error(400, res);[m
+[32m+[m[32m        };[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * 根据用户名获取公司信息[m
+[32m+[m[32m     * @param username 公司用户名[m
+[32m+[m[32m     * @return 公司信息[m
+[32m+[m[32m     */[m
+[32m+[m[32m    @GetMapping("/api/{username}")[m
+[32m+[m[32m    public ApiResponse<Company> getByUsername(@PathVariable String username, HttpServletRequest request) {[m
+[32m+[m[32m        if (username == null || username.trim().isEmpty() || username.trim().equals(" ")) {[m
+[32m+[m[32m            return ApiResponse.error(400, "用户名为空");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        String currentUsername = (String) request.getAttribute("username");[m
+[32m+[m[32m        String role = (String) request.getAttribute("role");[m
+[32m+[m
+[32m+[m[32m        // 检查是否在访问他人信息[m
+[32m+[m[32m        if (!username.equals(currentUsername)) {[m
+[32m+[m[32m            return ApiResponse.error(401, "没有权限");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        if (role == null || !role.equals(ConstUtil.COMPANY)) {[m
+[32m+[m[32m            return ApiResponse.error(401, "没有权限");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        Company company = companyService.getByUsername(username);[m
+[32m+[m[32m        if (company != null) {[m
+[32m+[m[32m            return ApiResponse.success(company);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        return ApiResponse.error(404, "用户名不存在");[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    /**[m
+[32m+[m[32m     * 测试JWT 鉴权[m
+[32m+[m[32m     * @return 任意[m
+[32m+[m[32m     */[m
+[32m+[m[32m    @GetMapping("/test")[m
+[32m+[m[32m    public String test(){[m
+[32m+[m[32m        return "456";[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/dto/CompanyLoginDto.java b/src/main/java/org/thirtysix/talentnexus/dto/CompanyLoginDto.java[m
+[1mindex 668aa5a..583f7ec 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/dto/CompanyLoginDto.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/dto/CompanyLoginDto.java[m
+[36m@@ -1,2 +1,9 @@[m
+[31m-package org.thirtysix.talentnexus.dto;public class CompanyLoginDto {[m
+[32m+[m[32mpackage org.thirtysix.talentnexus.dto;[m
+[32m+[m
+[32m+[m[32mimport lombok.Data;[m
+[32m+[m
+[32m+[m[32m@Data[m
+[32m+[m[32mpublic class CompanyLoginDto {[m
+[32m+[m[32m    String username;[m
+[32m+[m[32m    String password;[m
+ }[m
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/mapper/CompanyMapper.java b/src/main/java/org/thirtysix/talentnexus/mapper/CompanyMapper.java[m
+[1mindex c323f35..5c3d97c 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/mapper/CompanyMapper.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/mapper/CompanyMapper.java[m
+[36m@@ -1,2 +1,27 @@[m
+[31m-package org.thirtysix.talentnexus.mapper;public interface CompanyMapper {[m
+[32m+[m[32mpackage org.thirtysix.talentnexus.mapper;[m
+[32m+[m
+[32m+[m[32mimport org.apache.ibatis.annotations.Insert;[m
+[32m+[m[32mimport org.apache.ibatis.annotations.Mapper;[m
+[32m+[m[32mimport org.apache.ibatis.annotations.Param;[m
+[32m+[m[32mimport org.apache.ibatis.annotations.Select;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.pojo.Company;[m
+[32m+[m
+[32m+[m[32m@Mapper[m
+[32m+[m[32mpublic interface CompanyMapper {[m
+[32m+[m
+[32m+[m[32m    @Select("SELECT password FROM companies WHERE username = #{username}")[m
+[32m+[m[32m    String getPasswordByUsername(@Param("username") String username);[m
+[32m+[m
+[32m+[m[32m    @Insert("INSERT INTO companies (username, password, company_name, email, phone_number, website, address, description, created_at, updated_at) " +[m
+[32m+[m[32m            "VALUES (#{username}, #{password}, #{companyName}, #{email}, #{phoneNumber}, #{website}, #{address}, #{description}, #{createdAt}, #{updatedAt})")[m
+[32m+[m[32m    void insertCompany(Company company);[m
+[32m+[m
+[32m+[m[32m    @Select("SELECT count(*) FROM companies WHERE username = #{username}")[m
+[32m+[m[32m    Integer getUsernameCount(@Param("username") String username);[m
+[32m+[m
+[32m+[m[32m    @Select("SELECT count(*) FROM companies WHERE email = #{email}")[m
+[32m+[m[32m    Integer getEmailCount(@Param("email") String email);[m
+[32m+[m
+[32m+[m[32m    @Select("SELECT * FROM companies WHERE username = #{username}")[m
+[32m+[m[32m    Company getCompanyByUsername(@Param("username") String username);[m
+ }[m
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/pojo/Company.java b/src/main/java/org/thirtysix/talentnexus/pojo/Company.java[m
+[1mindex 0591531..14feb9d 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/pojo/Company.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/pojo/Company.java[m
+[36m@@ -7,7 +7,7 @@[m [mimport java.time.LocalDateTime;[m
+ public class Company {[m
+     private int id;[m
+     private String username;[m
+[31m-    private String passwordHash;[m
+[32m+[m[32m    private String password;[m[41m[m
+     private String companyName;[m
+     private String email;[m
+     private String phoneNumber;[m
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/service/CompanyService.java b/src/main/java/org/thirtysix/talentnexus/service/CompanyService.java[m
+[1mindex 3ebbb5f..6c9fc20 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/service/CompanyService.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/service/CompanyService.java[m
+[36m@@ -1,2 +1,12 @@[m
+[31m-package org.thirtysix.talentnexus.service;public interface CompanyService {[m
+[32m+[m[32mpackage org.thirtysix.talentnexus.service;[m
+[32m+[m
+[32m+[m[32mimport org.thirtysix.talentnexus.dto.CompanyLoginDto;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.pojo.Company;[m
+[32m+[m
+[32m+[m[32mpublic interface CompanyService {[m
+[32m+[m[32m    boolean login(CompanyLoginDto loginDto);[m
+[32m+[m
+[32m+[m[32m    String register(Company company);[m
+[32m+[m
+[32m+[m[32m    Company getByUsername(String username);[m
+ }[m
+[1mdiff --git a/src/main/java/org/thirtysix/talentnexus/service/impl/CompanyServiceImpl.java b/src/main/java/org/thirtysix/talentnexus/service/impl/CompanyServiceImpl.java[m
+[1mindex 98abde1..5d7b4fc 100644[m
+[1m--- a/src/main/java/org/thirtysix/talentnexus/service/impl/CompanyServiceImpl.java[m
+[1m+++ b/src/main/java/org/thirtysix/talentnexus/service/impl/CompanyServiceImpl.java[m
+[36m@@ -1,2 +1,83 @@[m
+[31m-package org.thirtysix.talentnexus.service.impl;public class CompanyServiceImpl {[m
+[32m+[m[32mpackage org.thirtysix.talentnexus.service.impl;[m
+[32m+[m
+[32m+[m[32mimport org.apache.logging.log4j.LogManager;[m
+[32m+[m[32mimport org.apache.logging.log4j.Logger;[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.stereotype.Service;[m
+[32m+[m[32mimport org.springframework.util.StringUtils;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.dto.CompanyLoginDto;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.mapper.CompanyMapper;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.pojo.Company;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.service.CompanyService;[m
+[32m+[m[32mimport org.thirtysix.talentnexus.util.PasswordUtil;[m
+[32m+[m
+[32m+[m[32m@Service[m
+[32m+[m[32mpublic class CompanyServiceImpl implements CompanyService {[m
+[32m+[m[32m    private static final Logger LOGGER = LogManager.getLogger(CompanyServiceImpl.class);[m
+[32m+[m
+[32m+[m[32m    @Autowired[m
+[32m+[m[32m    CompanyMapper companyMapper;[m
+[32m+[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public boolean login(CompanyLoginDto loginDto) {[m
+[32m+[m[32m        String password = companyMapper.getPasswordByUsername(loginDto.getUsername());[m
+[32m+[m[32m        if (password == null) {[m
+[32m+[m[32m            return false;[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return password.equals(PasswordUtil.hashPassword(loginDto.getPassword()));[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public String register(Company company) {[m
+[32m+[m[32m        // 字段验证[m
+[32m+[m[32m        if (company == null) {[m
+[32m+[m[32m            return "invalid";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (!StringUtils.hasText(company.getUsername())) {[m
+[32m+[m[32m            return "username_empty";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (!StringUtils.hasText(company.getPassword())) {[m
+[32m+[m[32m            return "password_empty";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (!StringUtils.hasText(company.getEmail()) || !isValidEmail(company.getEmail())) {[m
+[32m+[m[32m            return "email_invalid";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        if (!StringUtils.hasText(company.getPhoneNumber())) {[m
+[32m+[m[32m            return "phone_empty";[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // 验证用户名是否已存在[m
+[32m+[m[32m        String username = company.getUsername();[m
+[32m+[m[32m        Integer cnt = companyMapper.getUsernameCount(username);[m
+[32m+[m[32m        if (cnt != 0) {[m
+[32m+[m[32m            return "dup";[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // 验证邮箱是否已存在[m
+[32m+[m[32m        String email = company.getEmail();[m
+[32m+[m[32m        cnt = companyMapper.getEmailCount(email);[m
+[32m+[m[32m        if (cnt != 0) {[m
+[32m+[m[32m            return "dup";[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // 密码加密[m
+[32m+[m[32m        company.setPassword(PasswordUtil.hashPassword(company.getPassword()));[m
+[32m+[m
+[32m+[m[32m        try {[m
+[32m+[m[32m            companyMapper.insertCompany(company);[m
+[32m+[m[32m        } catch (Exception e) {[m
+[32m+[m[32m            LOGGER.error("Error occurred during registration", e);[m
+[32m+[m[32m            return "err";[m
+[32m+[m[32m        }[m
+[32m+[m[32m        return "ok";[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    public Company getByUsername(String username) {[m
+[32m+[m[32m        return companyMapper.getCompanyByUsername(username);[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    // 简单的电子邮件验证[m
+[32m+[m[32m    private boolean isValidEmail(String email) {[m
+[32m+[m[32m        return email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");[m
+[32m+[m[32m    }[m
+ }[m
+[41m+[m

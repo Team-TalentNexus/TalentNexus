@@ -71,8 +71,7 @@ CREATE TABLE job_positions (
                                location VARCHAR(100),
                                employment_type VARCHAR(50) NOT NULL,
                                salary_range VARCHAR(50),
-                               is_active BOOLEAN NOT NULL DEFAULT TRUE,
-                               is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+                               active BOOLEAN NOT NULL DEFAULT TRUE,
                                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

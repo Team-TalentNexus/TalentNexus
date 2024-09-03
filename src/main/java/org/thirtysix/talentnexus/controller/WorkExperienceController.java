@@ -16,13 +16,13 @@ import java.util.Objects;
 @CrossOrigin(origins = "http://localhost:8082")
 public class WorkExperienceController {
     @Autowired
-    JobSeekerService jobSeekerService;
+    private JobSeekerService jobSeekerService;
 
     @Autowired
-    ResumeService resumeService;
+    private ResumeService resumeService;
 
     @Autowired
-    WorkExperienceService workExperienceService;
+    private WorkExperienceService workExperienceService;
 
     @PostMapping
     public ApiResponse<String> addWorkExperience(@RequestBody WorkExperience workExperience, HttpServletRequest request) {

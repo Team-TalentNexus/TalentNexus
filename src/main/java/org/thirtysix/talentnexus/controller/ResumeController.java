@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.ResumeBasicDto;
+import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.pojo.Resume;
 import org.thirtysix.talentnexus.service.JobSeekerService;
 import org.thirtysix.talentnexus.service.ResumeService;
@@ -41,6 +42,25 @@ public class ResumeController {
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
         Resume resume = resumeService.getResumeByJobSeekerId(currentId);
 
+        JobSeeker jobSeeker = jobSeekerService.getByUsername(currentUsername);
+        resume.setFullName(jobSeeker.getFullName());
+        resume.setEmail(jobSeeker.getEmail());
+        resume.setBirthDate(jobSeeker.getBirthDate());
+        resume.setPhone(jobSeeker.getPhone());
+        resume.setGender(jobSeeker.getGender());
+        resume.setAddress(jobSeeker.getAddress());
+
         return ApiResponse.success(resume);
+    }
+
+    @DeleteMapping
+    public ApiResponse<String> deleteResume(HttpServletRequest request) {
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+        if(resumeService.deleteResumeByJobSeekerId(currentId)) {
+            return ApiResponse.success("");
+        }
+
+        return ApiResponse.error(500, "删除简历失败");
     }
 }

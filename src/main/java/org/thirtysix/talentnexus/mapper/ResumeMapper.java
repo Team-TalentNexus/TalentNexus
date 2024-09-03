@@ -1,9 +1,6 @@
 package org.thirtysix.talentnexus.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.thirtysix.talentnexus.dto.ResumeBasicDto;
 import org.thirtysix.talentnexus.pojo.Resume;
 
@@ -18,4 +15,10 @@ public interface ResumeMapper {
 
     @Select("SELECT id, job_seeker_id, title, summary, created_at, updated_at FROM resumes WHERE job_seeker_id = #{jobSeekerId}")
     Resume getResumeByJobSeekerId(Integer jobSeekerId);
+
+    @Select("SELECT id FROM resumes WHERE job_seeker_id = #{id}")
+    Integer getIdByJobSeekerId(Integer id);
+
+    @Delete("DELETE FROM resumes WHERE job_seeker_id = #{id}")
+    void deleteResumeByJobSeekerId(Integer id);
 }
