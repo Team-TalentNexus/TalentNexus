@@ -35,14 +35,9 @@ public class ProjectExperienceController {
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
 
-        Integer resumeId = projectExperience.getResumeId();
-
-        // 根据简历id获取用户id
-        Integer jobSeekerId = resumeService.getJobSeekerIdById(resumeId);
-
-        if(!Objects.equals(currentId, jobSeekerId)) {
-            return ApiResponse.error(401, "权限认证失败");
-        }
+        // 根据用户id获取简历id
+        Integer resumeId = resumeService.getIdByJobSeekerId(currentId);
+        projectExperience.setResumeId(resumeId);
 
         if(projectExperienceService.add(projectExperience)) {
             return ApiResponse.success("");
