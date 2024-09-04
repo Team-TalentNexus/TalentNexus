@@ -14,4 +14,7 @@ public interface JobApplicationMapper {
 
     @Select("SELECT * FROM job_applications WHERE job_seeker_id = #{id} AND active = true LIMIT #{size} OFFSET #{offset}")
     List<JobApplication> getApplicationByJobSeekerId(Integer id, Integer size, Integer offset);
+
+    @Select("SELECT count(*) FROM job_applications WHERE job_seeker_id = #{id} AND active = true")
+    Integer getActiveApplicationNumByJobSeekerId(Integer id);
 }

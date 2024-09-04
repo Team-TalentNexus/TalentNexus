@@ -67,6 +67,11 @@ public class JobApplicationController {
 
     @GetMapping
     public ApiResponse<List<JobApplication>> getJobApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
         // 验证 page 和 size 是否存在并且是正整数
         if (page == null || size == null || page <= 0 || size <= 0) {
             return ApiResponse.error(400, "Bad Request: 'page' and 'size' must be positive integers.");
@@ -82,4 +87,16 @@ public class JobApplicationController {
         }
     }
 
+    @GetMapping("/count")
+    public ApiResponse<Integer> getActiveApplicationNum(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+
+        return ApiResponse.success(jobApplicationService.getActiveApplicationNumByJobSeekerId(currentId));
+    }
 }
