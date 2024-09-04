@@ -66,12 +66,17 @@ public class JobApplicationController {
     }
 
     @GetMapping
-    public ApiResponse<List<JobApplication>> getJobApplications(HttpServletRequest request) {
+    public ApiResponse<List<JobApplication>> getJobApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request) {
+        // 验证 page 和 size 是否存在并且是正整数
+        if (page == null || size == null || page <= 0 || size <= 0) {
+            return ApiResponse.error(400, "Bad Request: 'page' and 'size' must be positive integers.");
+        }
+
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
 
         try {
-            return ApiResponse.success(jobApplicationService.getApplicationByJobSeekerId(currentId));
+            return ApiResponse.success(jobApplicationService.getApplicationByJobSeekerId(currentId, page, size));
         } catch (Exception e) {
             return ApiResponse.error(500, "查询失败");
         }

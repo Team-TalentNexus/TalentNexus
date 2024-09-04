@@ -30,9 +30,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     }
 
     @Override
-    public List<JobApplication> getApplicationByJobSeekerId(Integer id) {
+    public List<JobApplication> getApplicationByJobSeekerId(Integer id, Integer page, Integer size) {
         try {
-            return jobApplicationMapper.getApplicationBuJobSeekerId(id);
+            return jobApplicationMapper.getApplicationByJobSeekerId(id, size, (page - 1) * size);
         } catch (Exception e) {
             LOGGER.error("Error occurred while retrieving job applications for job seeker ID: {}", id, e);
             throw new RuntimeException("Failed to retrieve job applications for job seeker ID: " + id, e);
