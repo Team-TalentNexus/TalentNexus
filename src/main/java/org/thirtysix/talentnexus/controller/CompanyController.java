@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.dto.CompanyLoginDto;
 import org.thirtysix.talentnexus.pojo.Company;
-import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.CompanyService;
 import org.thirtysix.talentnexus.util.ApiResponse;
 import org.thirtysix.talentnexus.util.ConstUtil;
