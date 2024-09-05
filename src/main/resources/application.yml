@@ -11,6 +11,17 @@ spring:
       database: 1
       port: 6379
       host: localhost
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lzhiwen236@gmail.com
+    password: lzw030817
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 mybatis:
   configuration:
@@ -18,3 +29,4 @@ mybatis:
 
 server:
   port: 8081
+
