@@ -22,4 +22,9 @@ public interface JobApplicationMapper {
             "JOIN job_positions jp ON ja.job_position_id = jp.id " +
             "WHERE jp.company_id = #{companyId} AND ja.active = true LIMIT #{size} OFFSET #{offset}")
     List<JobApplication> getJobApplicationsByCompanyId(Integer companyId, Integer size, Integer offset);
+
+    @Select("SELECT ja.* FROM job_applications ja" +
+            "JOIN job_positions jp ON ja.job_position_id = jp.id" +
+            "WHERE jp.company_id = #{companyId} AND ja.active = true")
+    Integer getActiveApplicationNumByCompanyId(Integer companyId);
 }

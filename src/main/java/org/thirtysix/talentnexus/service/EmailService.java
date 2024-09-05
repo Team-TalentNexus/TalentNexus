@@ -28,6 +28,7 @@ public class EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(to);
+        System.out.println("TO addr:" + to);
         message.setSubject(subject);
         message.setText(body);
 

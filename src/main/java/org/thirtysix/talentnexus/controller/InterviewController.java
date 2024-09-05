@@ -4,8 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.pojo.Interview;
+import org.thirtysix.talentnexus.service.CompanyService;
 import org.thirtysix.talentnexus.service.InterviewService;
 import org.thirtysix.talentnexus.util.ApiResponse;
+import org.thirtysix.talentnexus.util.ConstUtil;
 
 import java.util.Objects;
 
@@ -15,6 +17,9 @@ public class InterviewController {
 
     @Autowired
     private InterviewService interviewService;
+
+    @Autowired
+    private CompanyService companyService;
 
     /**
      * 创建面试
@@ -26,17 +31,14 @@ public class InterviewController {
     public ApiResponse<Integer> createInterview(@RequestBody Interview interview, HttpServletRequest request) {
         // 从请求中获取当前用户的角色和公司ID
         String role = (String) request.getAttribute("role");
-        Integer currentCompanyId = (Integer) request.getAttribute("companyId");
-
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentCompanyId = companyService.getCompanyIdByUsername(currentUsername);
         // 权限验证：确保当前用户是公司用户
-        if (!"COMPANY".equals(role)) {
+        if (!ConstUtil.COMPANY.equals(role)) {
             return ApiResponse.error(401, "权限认证失败");
         }
 
-        // 验证面试信息中公司ID是否匹配当前用户
-        if (!currentCompanyId.equals(interview.getCompanyId())) {
-            return ApiResponse.error(403, "无法创建其他公司的面试");
-        }
+        interview.setCompanyId(currentCompanyId);
 
         // 调用服务层方法创建面试
         Integer interviewId = interviewService.createInterview(interview);
@@ -56,7 +58,8 @@ public class InterviewController {
     public ApiResponse<Interview> getInterview(@PathVariable Integer id, HttpServletRequest request) {
         // 从请求中获取当前用户的角色和公司ID
         String role = (String) request.getAttribute("role");
-        Integer currentCompanyId = (Integer) request.getAttribute("companyId");
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentCompanyId = companyService.getCompanyIdByUsername(currentUsername);
 
         // 获取面试信息
         Interview interview = interviewService.getInterviewById(id);
@@ -65,7 +68,7 @@ public class InterviewController {
         }
 
         // 权限验证：确保当前用户是公司用户
-        if (!"COMPANY".equals(role)) {
+        if (!ConstUtil.COMPANY.equals(role)) {
             return ApiResponse.error(401, "权限认证失败");
         }
 
@@ -87,10 +90,11 @@ public class InterviewController {
     public ApiResponse<String> updateInterview(@RequestBody Interview interview, HttpServletRequest request) {
         // 从请求中获取当前用户的角色和公司ID
         String role = (String) request.getAttribute("role");
-        Integer currentCompanyId = (Integer) request.getAttribute("companyId");
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentCompanyId = companyService.getCompanyIdByUsername(currentUsername);
 
         // 权限验证：确保当前用户是公司用户
-        if (!"COMPANY".equals(role)) {
+        if (!ConstUtil.COMPANY.equals(role)) {
             return ApiResponse.error(401, "权限认证失败");
         }
 
@@ -117,7 +121,8 @@ public class InterviewController {
     public ApiResponse<String> deleteInterview(@PathVariable Integer id, HttpServletRequest request) {
         // 从请求中获取当前用户的角色和公司ID
         String role = (String) request.getAttribute("role");
-        Integer currentCompanyId = (Integer) request.getAttribute("companyId");
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentCompanyId = companyService.getCompanyIdByUsername(currentUsername);
 
         // 获取面试信息
         Interview interview = interviewService.getInterviewById(id);
@@ -126,7 +131,7 @@ public class InterviewController {
         }
 
         // 权限验证：确保当前用户是公司用户
-        if (!"COMPANY".equals(role)) {
+        if (!ConstUtil.COMPANY.equals(role)) {
             return ApiResponse.error(401, "权限认证失败");
         }
 

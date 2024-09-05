@@ -129,7 +129,9 @@ public class InterviewServiceImpl implements InterviewService{
     private String getJobSeekerEmail(Integer jobSeekerId) {
         // 假设有一个服务可以根据ID获取求职者信息
         // 这里需要实现获取求职者邮箱的逻辑
-        return "jobseeker@example.com"; // 示例邮箱
+//        return "jobseeker@example.com"; // 示例邮箱
+
+        return "qingpum@outlook.com";
     }
 }
 
