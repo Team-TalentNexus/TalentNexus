@@ -13,4 +13,6 @@ public interface ResumeService {
     Integer getIdByJobSeekerId(Integer id);
 
     boolean deleteResumeByJobSeekerId(Integer id);
+
+    boolean isResumeVisibleToCompany(Integer resumeId, Integer companyId);
 }

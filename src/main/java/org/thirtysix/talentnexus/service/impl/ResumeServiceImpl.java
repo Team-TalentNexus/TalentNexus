@@ -67,4 +67,9 @@ public class ResumeServiceImpl implements ResumeService {
         return true;
     }
 
+    @Override
+    public boolean isResumeVisibleToCompany(Integer resumeId, Integer companyId) {
+        return resumeMapper.isResumeVisibleToCompany(resumeId, companyId);
+    }
+
 }

@@ -5,17 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.pojo.JobApplication;
-import org.thirtysix.talentnexus.service.JobApplicationService;
-import org.thirtysix.talentnexus.service.JobPositionService;
-import org.thirtysix.talentnexus.service.JobSeekerService;
-import org.thirtysix.talentnexus.service.ResumeService;
+import org.thirtysix.talentnexus.service.*;
 import org.thirtysix.talentnexus.util.ApiResponse;
 import org.thirtysix.talentnexus.util.ConstUtil;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/seeker/apply")
 @CrossOrigin(origins = "http://localhost:8082")
 public class JobApplicationController {
     @Autowired
@@ -33,7 +29,10 @@ public class JobApplicationController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @PostMapping("/{job_position_id}")
+    @Autowired
+    private CompanyService companyService;
+
+    @PostMapping("/seeker/apply/{job_position_id}")
     public ApiResponse<String> submitApplication(@PathVariable("job_position_id") Integer jobPositionId, HttpServletRequest request) {
         String role = (String) request.getAttribute("role");
         if(!role.equals(ConstUtil.SEEKER)) {
@@ -65,13 +64,58 @@ public class JobApplicationController {
         return ApiResponse.error(500, "提交申请失败");
     }
 
-    @GetMapping
-    public ApiResponse<List<JobApplication>> getJobApplications(HttpServletRequest request) {
+    @GetMapping("/seeker/apply")
+    public ApiResponse<List<JobApplication>> getJobApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        // 验证 page 和 size 是否存在并且是正整数
+        if (page == null || size == null || page <= 0 || size <= 0) {
+            return ApiResponse.error(400, "Bad Request: 'page' and 'size' must be positive integers.");
+        }
+
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
 
         try {
-            return ApiResponse.success(jobApplicationService.getApplicationByJobSeekerId(currentId));
+            return ApiResponse.success(jobApplicationService.getApplicationByJobSeekerId(currentId, page, size));
+        } catch (Exception e) {
+            return ApiResponse.error(500, "查询失败");
+        }
+    }
+
+    @GetMapping("/seeker/apply/count")
+    public ApiResponse<Integer> getActiveApplicationNum(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+
+        return ApiResponse.success(jobApplicationService.getActiveApplicationNumByJobSeekerId(currentId));
+    }
+
+    @GetMapping("/company/apply")
+    public ApiResponse<List<JobApplication>> companyGetApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.COMPANY)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        // 验证 page 和 size 是否存在并且是正整数
+        if (page == null || size == null || page <= 0 || size <= 0) {
+            return ApiResponse.error(400, "Bad Request: 'page' and 'size' must be positive integers.");
+        }
+
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = companyService.getCompanyIdByUsername(currentUsername);
+
+        try {
+            return ApiResponse.success(jobApplicationService.getApplicationsByCompanyId(currentId, page, size));
         } catch (Exception e) {
             return ApiResponse.error(500, "查询失败");
         }

@@ -36,4 +36,21 @@ public class JobPositionServiceImpl implements JobPositionService {
 
         return true;
     }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        try {
+            jobPositionMapper.deleteById(id);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred during delete job position:{}, {}", id, e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public Integer getCompanyIdById(Integer id) {
+        return jobPositionMapper.getCompanyIdById(id);
+    }
 }

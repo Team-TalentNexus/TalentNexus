@@ -8,4 +8,5 @@ public interface JobSeekerService {
     String register(JobSeeker seeker);
     JobSeeker getByUsername(String username);
     Integer getIdByUsername(String username);
+    JobSeeker getById(Integer id);
 }

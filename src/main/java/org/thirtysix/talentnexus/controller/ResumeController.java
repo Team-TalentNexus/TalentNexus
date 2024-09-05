@@ -25,11 +25,15 @@ public class ResumeController {
 
     @PostMapping
     public ApiResponse<Integer> createResume(@RequestBody ResumeBasicDto resumeBasicDto, HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!Objects.equals(role, ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
-        if(!Objects.equals(currentId, resumeBasicDto.getJobSeekerId())) {
-            return ApiResponse.error(401, "权限认证失败");
-        }
+
+        resumeBasicDto.setJobSeekerId(currentId);
 
         if(resumeService.createResume(resumeBasicDto)) {
             return ApiResponse.success(resumeBasicDto.getId());
@@ -44,15 +48,7 @@ public class ResumeController {
         Resume resume = resumeService.getResumeByJobSeekerId(currentId);
 
         JobSeeker jobSeeker = jobSeekerService.getByUsername(currentUsername);
-        resume.setFullName(jobSeeker.getFullName());
-        resume.setEmail(jobSeeker.getEmail());
-        resume.setBirthDate(jobSeeker.getBirthDate());
-        resume.setPhone(jobSeeker.getPhone());
-        resume.setGender(jobSeeker.getGender());
-        resume.setAddress(jobSeeker.getAddress());
-        resume.setUniversity(jobSeeker.getUniversity());
-        resume.setMajor(jobSeeker.getMajor());
-        resume.setDegree(jobSeeker.getDegree());
+        ApiResponse.fillResume(resume, jobSeeker);
         return ApiResponse.success(resume);
     }
 

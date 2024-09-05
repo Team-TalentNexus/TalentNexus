@@ -84,6 +84,7 @@ CREATE TABLE job_applications (
                                   resume_id INT REFERENCES resumes(id) ON DELETE SET NULL,
                                   application_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                                   status VARCHAR(50) NOT NULL,
+                                  active boolean NOT NULL DEFAULT true,
                                   feedback TEXT
 );
 
