@@ -43,4 +43,14 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     public Integer getActiveApplicationNumByJobSeekerId(Integer id) {
         return jobApplicationMapper.getActiveApplicationNumByJobSeekerId(id);
     }
+
+    @Override
+    public List<JobApplication> getApplicationsByCompanyId(Integer id, Integer page, Integer size) {
+        try {
+            return jobApplicationMapper.getJobApplicationsByCompanyId(id, size, (page - 1) * size);
+        } catch (Exception e) {
+            LOGGER.error("Error occurred while retrieving job applications for company ID: {}", id, e);
+            throw new RuntimeException("Failed to retrieve job applications for company ID: " + id, e);
+        }
+    }
 }

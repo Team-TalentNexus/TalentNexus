@@ -17,4 +17,9 @@ public interface JobApplicationMapper {
 
     @Select("SELECT count(*) FROM job_applications WHERE job_seeker_id = #{id} AND active = true")
     Integer getActiveApplicationNumByJobSeekerId(Integer id);
+
+    @Select("SELECT ja.* FROM job_applications ja " +
+            "JOIN job_positions jp ON ja.job_position_id = jp.id " +
+            "WHERE jp.company_id = #{companyId} AND ja.active = true LIMIT #{size} OFFSET #{offset}")
+    List<JobApplication> getJobApplicationsByCompanyId(Integer companyId, Integer size, Integer offset);
 }

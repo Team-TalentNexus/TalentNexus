@@ -10,4 +10,6 @@ public interface JobApplicationService {
     List<JobApplication> getApplicationByJobSeekerId(Integer id, Integer page, Integer size);
 
     Integer getActiveApplicationNumByJobSeekerId(Integer id);
+
+    List<JobApplication> getApplicationsByCompanyId(Integer id, Integer page, Integer size);
 }
