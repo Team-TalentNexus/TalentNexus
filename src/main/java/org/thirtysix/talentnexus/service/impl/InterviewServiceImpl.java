@@ -2,10 +2,16 @@ package org.thirtysix.talentnexus.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thirtysix.talentnexus.mapper.CompanyMapper;
 import org.thirtysix.talentnexus.mapper.InterviewMapper;
+import org.thirtysix.talentnexus.mapper.JobApplicationMapper;
 import org.thirtysix.talentnexus.pojo.Interview;
+import org.thirtysix.talentnexus.pojo.JobPosition;
+import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.EmailService;
 import org.thirtysix.talentnexus.service.InterviewService;
+import org.thirtysix.talentnexus.service.JobPositionService;
+import org.thirtysix.talentnexus.service.JobSeekerService;
 
 @Service
 public class InterviewServiceImpl implements InterviewService{
@@ -15,6 +21,29 @@ public class InterviewServiceImpl implements InterviewService{
 
     @Autowired
     private EmailService emailService; // 用于发送邮件通知
+
+    @Autowired
+    private JobSeekerService jobSeekerService;//用于根据id查询邮箱
+
+    @Autowired
+    private JobPositionService jobPositionService;
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
+    @Autowired
+    private JobApplicationMapper jobApplicationMapper;
+
+    // 根据公司ID获取公司名称
+    public String getCompanyName(Integer companyId) {
+        return companyMapper.getCompanyNameById(companyId);
+    }
+
+    // 根据职位申请ID获取职位名称
+    public String getJobApplicationTitle(Integer jobApplicationId) {
+        Integer jobId = jobApplicationMapper.getJobPositionIdById(jobApplicationId);
+        return jobPositionService.getTitleById(jobId);
+    }
 
     /**
      * 创建面试
@@ -79,14 +108,14 @@ public class InterviewServiceImpl implements InterviewService{
         // 邮件内容构造
         String subject = "面试邀请";
         String body = String.format(
-                "尊敬的求职者，\n\n您已被邀请参加面试。\n\n面试详情：\n公司ID: %d\n职位申请ID: %d\n面试时间: %s - %s\n面试链接: %s",
-                interview.getCompanyId(),
-                interview.getJobApplicationId(),
+                "尊敬的求职者，\n\n您已被邀请参加面试。\n\n面试详情：\n公司名称: %s\n职位名称: %s\n面试时间: %s - %s\n面试链接: %s",
+                getCompanyName(interview.getCompanyId()),
+                getJobApplicationTitle(interview.getJobApplicationId()),
                 interview.getStartTime(),
                 interview.getEndTime(),
                 interview.getInterviewLink()
         );
-        // 假设求职者的邮箱是通过jobSeekerId获取的
+        // 求职者的邮箱是通过jobSeekerId获取的
         String jobSeekerEmail = getJobSeekerEmail(interview.getJobSeekerId());
         emailService.sendEmail(jobSeekerEmail, subject, body);
     }
@@ -96,9 +125,9 @@ public class InterviewServiceImpl implements InterviewService{
         // 邮件内容构造
         String subject = "面试信息更新";
         String body = String.format(
-                "尊敬的求职者，\n\n您的面试信息已更新。\n\n面试详情：\n公司ID: %d\n职位申请ID: %d\n面试时间: %s - %s\n面试链接: %s",
-                interview.getCompanyId(),
-                interview.getJobApplicationId(),
+                "尊敬的求职者，\n\n您的面试信息已更新。\n\n面试详情：\n公司名称: %s\n职位名称: %s\n面试时间: %s - %s\n面试链接: %s",
+                getCompanyName(interview.getCompanyId()),
+                getJobApplicationTitle(interview.getJobApplicationId()),
                 interview.getStartTime(),
                 interview.getEndTime(),
                 interview.getInterviewLink()
@@ -113,25 +142,22 @@ public class InterviewServiceImpl implements InterviewService{
         // 邮件内容构造
         String subject = "面试删除通知";
         String body = String.format(
-                "尊敬的求职者，\n\n您的面试已被取消。\n\n面试详情：\n公司ID: %d\n职位申请ID: %d\n面试时间: %s - %s\n面试链接: %s",
-                interview.getCompanyId(),
-                interview.getJobApplicationId(),
+                "尊敬的求职者，\n\n您的面试已被取消。\n\n面试详情：\n公司名称: %s\n职位名称: %s\n面试时间: %s - %s\n面试链接: %s",
+                getCompanyName(interview.getCompanyId()),
+                getJobApplicationTitle(interview.getJobApplicationId()),
                 interview.getStartTime(),
                 interview.getEndTime(),
                 interview.getInterviewLink()
         );
-        // 假设求职者的邮箱是通过jobSeekerId获取的
+        // 求职者的邮箱是通过jobSeekerId获取的
         String jobSeekerEmail = getJobSeekerEmail(interview.getJobSeekerId());
         emailService.sendEmail(jobSeekerEmail, subject, body);
     }
 
-    // 根据求职者ID获取求职者邮箱（示例方法，需要根据实际情况实现）
+    // 根据求职者ID获取求职者邮箱
     private String getJobSeekerEmail(Integer jobSeekerId) {
-        // 假设有一个服务可以根据ID获取求职者信息
-        // 这里需要实现获取求职者邮箱的逻辑
-//        return "jobseeker@example.com"; // 示例邮箱
-
-        return "qingpum@outlook.com";
+        JobSeeker jobSeeker4 = jobSeekerService.getById(jobSeekerId);
+        return jobSeeker4 != null ? jobSeeker4.getEmail() : null;
     }
 }
 

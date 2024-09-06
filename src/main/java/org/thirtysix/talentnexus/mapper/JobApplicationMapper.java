@@ -27,4 +27,7 @@ public interface JobApplicationMapper {
             "JOIN job_positions jp ON ja.job_position_id = jp.id " +
             "WHERE jp.company_id = #{companyId} AND ja.active = true")
     Integer getActiveApplicationNumByCompanyId(Integer companyId);
+
+    @Select("SELECT job_position_id FROM job_applications WHERE id = #{jobApplicationId}")
+    Integer getJobPositionIdById(Integer jobApplicationId);
 }

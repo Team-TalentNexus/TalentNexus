@@ -24,4 +24,7 @@ public interface CompanyMapper {
 
     @Select("SELECT * FROM companies WHERE username = #{username}")
     Company getCompanyByUsername(@Param("username") String username);
+
+    @Select("SELECT company_name FROM companies WHERE id = #{companyId}")
+    String getCompanyNameById(Integer companyId);
 }
