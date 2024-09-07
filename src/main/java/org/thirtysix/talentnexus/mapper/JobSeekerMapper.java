@@ -26,4 +26,7 @@ public interface JobSeekerMapper {
 
     @Select("SELECT * FROM job_seekers WHERE id = #{id}")
     JobSeeker getJobSeekerById(Integer id);
+
+    @Select("SELECT full_name FROM job_seekers WHERE id = #{id}")
+    String getFullNameById(Integer id);
 }
