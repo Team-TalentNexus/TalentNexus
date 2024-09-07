@@ -117,4 +117,14 @@ public class JobSeekerController {
 
         return ApiResponse.success(jobPositionDtos);
     }
+
+    @GetMapping("/position/count")
+    ApiResponse<Integer> getTotalPositionCount(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.SEEKER)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        return ApiResponse.success(jobPositionService.getAllCount());
+    }
 }

@@ -33,4 +33,7 @@ public interface JobPositionMapper {
 
     @Select("SELECT * FROM job_positions WHERE active = true LIMIT #{size} OFFSET #{offset}")
     List<JobPosition> getAll(Integer size, Integer offset);
+
+    @Select("SELECT count(*) FROM job_positions WHERE active = true")
+    Integer getTotalCount();
 }
