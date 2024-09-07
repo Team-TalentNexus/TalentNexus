@@ -16,4 +16,6 @@ public interface JobApplicationService {
     Integer getActiveApplicationNumByCompanyId(Integer id, Integer positionId);
 
     Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId);
+
+    Integer updateSetInterviewingById(Integer id);
 }

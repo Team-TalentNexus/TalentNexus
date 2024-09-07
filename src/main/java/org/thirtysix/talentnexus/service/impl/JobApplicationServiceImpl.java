@@ -120,4 +120,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     public Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId) {
         return jobApplicationMapper.getCountBySeekerIdAndPositionId(jobSeekerId, jobPositionId);
     }
+
+    @Override
+    public Integer updateSetInterviewingById(Integer id) {
+        return jobApplicationMapper.updateSetInterviewingById(id);
+    }
 }

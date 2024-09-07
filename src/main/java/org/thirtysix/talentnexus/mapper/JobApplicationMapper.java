@@ -3,6 +3,7 @@ package org.thirtysix.talentnexus.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.thirtysix.talentnexus.pojo.JobApplication;
 
 import java.util.List;
@@ -34,4 +35,7 @@ public interface JobApplicationMapper {
     // 根据求职者和职位id查找，防止重复申请
     @Select("SELECT count(*) FROM job_applications WHERE job_seeker_id = #{jobSeekerId} AND job_position_id = #{jobPositionId}")
     Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId);
+
+    @Update("UPDATE job_applications SET status = '面试中' WHERE id = #{id}")
+    Integer updateSetInterviewingById(Integer id);
 }
