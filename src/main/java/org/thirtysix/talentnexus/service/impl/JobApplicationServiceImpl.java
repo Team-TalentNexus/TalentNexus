@@ -75,7 +75,7 @@ public class JobApplicationServiceImpl implements JobApplicationService {
         // 邮件内容构造
         String subject = "职位申请";
         String body = String.format(
-                "尊敬的%s公司，\n\n我的职位申请已经投递。\n\n申请详情：\n申请人: %s\n申请职位名称: %s",
+                "尊敬的%s公司，\n\n您收到一份新的申请。\n\n申请详情：\n申请人: %s\n申请职位名称: %s\n\n请于校企慧平台查看详情",
                 getCompanyName(getCompanyId(jobApplication.getJobPositionId())),
                 getJobSeekerName(jobApplication.getJobSeekerId()),
                 getPositionName(jobApplication.getJobPositionId())
