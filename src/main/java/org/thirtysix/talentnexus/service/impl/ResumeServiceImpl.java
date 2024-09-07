@@ -43,6 +43,9 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Resume getResumeByJobSeekerId(Integer jobSeekerId) {
         Resume resume = resumeMapper.getResumeByJobSeekerId(jobSeekerId);
+        if(resume == null) {
+            return null;
+        }
         Integer resumeId = resume.getId();
         resume.setProjectExperiences(projectExperienceMapper.getProjectExperienceByResumeId(resumeId));
         resume.setWorkExperiences(workExperienceMapper.getWorkExperienceByResumeId(resumeId));

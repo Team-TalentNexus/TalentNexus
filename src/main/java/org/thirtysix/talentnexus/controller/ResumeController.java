@@ -46,7 +46,9 @@ public class ResumeController {
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
         Resume resume = resumeService.getResumeByJobSeekerId(currentId);
-
+        if(resume == null) {
+            return ApiResponse.error(404, "简历未创建");
+        }
         JobSeeker jobSeeker = jobSeekerService.getByUsername(currentUsername);
         ApiResponse.fillResume(resume, jobSeeker);
         return ApiResponse.success(resume);
