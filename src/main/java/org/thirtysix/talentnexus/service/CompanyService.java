@@ -11,4 +11,6 @@ public interface CompanyService {
     Company getByUsername(String username);
 
     Integer getCompanyIdByUsername(String username);
+
+    public String getCompanyNameById(Integer companyId);
 }

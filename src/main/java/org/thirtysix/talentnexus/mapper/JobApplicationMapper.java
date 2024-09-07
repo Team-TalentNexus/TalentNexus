@@ -30,4 +30,8 @@ public interface JobApplicationMapper {
 
     @Select("SELECT job_position_id FROM job_applications WHERE id = #{jobApplicationId}")
     Integer getJobPositionIdById(Integer jobApplicationId);
+
+    // 根据求职者和职位id查找，防止重复申请
+    @Select("SELECT count(*) FROM job_applications WHERE job_seeker_id = #{jobSeekerId} AND job_position_id = #{jobPositionId}")
+    Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId);
 }

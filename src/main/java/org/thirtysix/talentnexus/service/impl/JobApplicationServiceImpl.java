@@ -58,4 +58,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     public Integer getActiveApplicationNumByCompanyId(Integer id, Integer positionId) {
         return jobApplicationMapper.getActiveApplicationNumByCompanyId(id, positionId);
     }
+
+    @Override
+    public Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId) {
+        return jobApplicationMapper.getCountBySeekerIdAndPositionId(jobSeekerId, jobPositionId);
+    }
 }
