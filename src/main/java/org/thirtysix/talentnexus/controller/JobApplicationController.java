@@ -4,11 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.thirtysix.talentnexus.dto.JobApplicationDto;
 import org.thirtysix.talentnexus.pojo.JobApplication;
 import org.thirtysix.talentnexus.service.*;
 import org.thirtysix.talentnexus.util.ApiResponse;
 import org.thirtysix.talentnexus.util.ConstUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -99,8 +101,8 @@ public class JobApplicationController {
         return ApiResponse.success(jobApplicationService.getActiveApplicationNumByJobSeekerId(currentId));
     }
 
-    @GetMapping("/company/apply")
-    public ApiResponse<List<JobApplication>> companyGetApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request) {
+    @GetMapping("/company/apply/{position_id}")
+    public ApiResponse<List<JobApplicationDto>> companyGetApplications(@RequestParam("page") Integer page, @RequestParam("size") Integer size, HttpServletRequest request, @PathVariable("position_id") Integer positionId) {
         String role = (String) request.getAttribute("role");
         if(!role.equals(ConstUtil.COMPANY)) {
             return ApiResponse.error(401, "没有权限");
@@ -114,11 +116,37 @@ public class JobApplicationController {
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = companyService.getCompanyIdByUsername(currentUsername);
 
-        try {
-            return ApiResponse.success(jobApplicationService.getApplicationsByCompanyId(currentId, page, size));
-        } catch (Exception e) {
-            return ApiResponse.error(500, "查询失败");
+        List<JobApplication> jobApplications = jobApplicationService.getApplicationsByCompanyIdAndJobPositionId(currentId, positionId, page, size);
+
+        List<JobApplicationDto> jobApplicationDtos = new ArrayList<>();
+        for (JobApplication application : jobApplications) {
+            JobApplicationDto dto = new JobApplicationDto();
+            dto.setId(application.getId());
+            dto.setResumeId(application.getResumeId());
+
+            // 获取求职者的全名
+            String fullName = jobSeekerService.getFullNameById(application.getJobSeekerId());
+            dto.setJobSeekerName(fullName);
+
+            // 设置状态
+            dto.setStatus(application.getStatus());
+
+            jobApplicationDtos.add(dto);
         }
+
+        return ApiResponse.success(jobApplicationDtos);
     }
 
+    @GetMapping("/company/apply/count/{position_id}")
+    public ApiResponse<Integer> companyGetApplicationsCount(HttpServletRequest request, @PathVariable Integer position_id) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.COMPANY)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = companyService.getCompanyIdByUsername(currentUsername);
+
+        return ApiResponse.success(jobApplicationService.getActiveApplicationNumByCompanyId(currentId, position_id));
+    }
 }

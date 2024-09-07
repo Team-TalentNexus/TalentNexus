@@ -88,6 +88,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
         return jobSeekerMapper.getJobSeekerById(id);
     }
 
+    @Override
+    public String getFullNameById(Integer id) {
+        return jobSeekerMapper.getFullNameById(id);
+    }
+
     // 简单的电子邮件验证
     private boolean isValidEmail(String email) {
         return email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");

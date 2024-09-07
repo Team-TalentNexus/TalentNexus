@@ -20,13 +20,13 @@ public interface JobApplicationMapper {
 
     @Select("SELECT ja.* FROM job_applications ja " +
             "JOIN job_positions jp ON ja.job_position_id = jp.id " +
-            "WHERE jp.company_id = #{companyId} AND ja.active = true LIMIT #{size} OFFSET #{offset}")
-    List<JobApplication> getJobApplicationsByCompanyId(Integer companyId, Integer size, Integer offset);
+            "WHERE jp.company_id = #{companyId} AND jp.id = #{jobPositionId} AND ja.active = true LIMIT #{size} OFFSET #{offset}")
+    List<JobApplication> getJobApplicationsByCompanyIdAndJobPositionId(Integer companyId, Integer jobPositionId, Integer size, Integer offset);
 
-    @Select("SELECT ja.* FROM job_applications ja " +
+    @Select("SELECT COUNT(*) FROM job_applications ja " +
             "JOIN job_positions jp ON ja.job_position_id = jp.id " +
-            "WHERE jp.company_id = #{companyId} AND ja.active = true")
-    Integer getActiveApplicationNumByCompanyId(Integer companyId);
+            "WHERE jp.company_id = #{companyId} AND jp.id = #{positionId} AND ja.active = true")
+    Integer getActiveApplicationNumByCompanyId(Integer companyId, Integer positionId);
 
     @Select("SELECT job_position_id FROM job_applications WHERE id = #{jobApplicationId}")
     Integer getJobPositionIdById(Integer jobApplicationId);

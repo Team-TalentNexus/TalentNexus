@@ -45,12 +45,17 @@ public class JobApplicationServiceImpl implements JobApplicationService {
     }
 
     @Override
-    public List<JobApplication> getApplicationsByCompanyId(Integer id, Integer page, Integer size) {
+    public List<JobApplication> getApplicationsByCompanyIdAndJobPositionId(Integer companyId, Integer positionId, Integer page, Integer size) {
         try {
-            return jobApplicationMapper.getJobApplicationsByCompanyId(id, size, (page - 1) * size);
+            return jobApplicationMapper.getJobApplicationsByCompanyIdAndJobPositionId(companyId, positionId, size, (page - 1) * size);
         } catch (Exception e) {
-            LOGGER.error("Error occurred while retrieving job applications for company ID: {}", id, e);
-            throw new RuntimeException("Failed to retrieve job applications for company ID: " + id, e);
+            LOGGER.error("Error occurred while retrieving job applications for company ID: {}", companyId, e);
+            throw new RuntimeException("Failed to retrieve job applications for company ID: " + companyId, e);
         }
+    }
+
+    @Override
+    public Integer getActiveApplicationNumByCompanyId(Integer id, Integer positionId) {
+        return jobApplicationMapper.getActiveApplicationNumByCompanyId(id, positionId);
     }
 }
