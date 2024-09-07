@@ -12,4 +12,6 @@ public interface JobPositionService {
     Integer getCompanyIdById(Integer id);
     List<JobPosition> getJobPositionsByCompanyId(Integer id, Integer page, Integer size);
     Integer getJobPositionsCountByCompanyId(Integer id);
+    List<JobPosition> getAll(Integer page, Integer size);
+    Integer getAllCount();
 }

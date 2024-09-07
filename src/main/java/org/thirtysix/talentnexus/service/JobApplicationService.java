@@ -14,4 +14,6 @@ public interface JobApplicationService {
     List<JobApplication> getApplicationsByCompanyIdAndJobPositionId(Integer companyId, Integer positionId,Integer page, Integer size);
 
     Integer getActiveApplicationNumByCompanyId(Integer id, Integer positionId);
+
+    Integer getCountBySeekerIdAndPositionId(Integer jobSeekerId, Integer jobPositionId);
 }
