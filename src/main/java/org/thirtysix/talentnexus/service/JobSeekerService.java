@@ -9,4 +9,5 @@ public interface JobSeekerService {
     JobSeeker getByUsername(String username);
     Integer getIdByUsername(String username);
     JobSeeker getById(Integer id);
+    String getFullNameById(Integer id);
 }
