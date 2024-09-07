@@ -53,4 +53,9 @@ public class JobApplicationServiceImpl implements JobApplicationService {
             throw new RuntimeException("Failed to retrieve job applications for company ID: " + id, e);
         }
     }
+
+    @Override
+    public Integer getActiveApplicationNumByCompanyId(Integer id) {
+        return jobApplicationMapper.getActiveApplicationNumByCompanyId(id);
+    }
 }
