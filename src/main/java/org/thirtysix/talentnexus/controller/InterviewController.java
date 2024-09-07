@@ -15,6 +15,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/company/interview")
+@CrossOrigin(origins = "http://localhost:8082")
 public class InterviewController {
 
     @Autowired
