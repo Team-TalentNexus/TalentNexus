@@ -2,7 +2,7 @@ spring:
   application:
     name: TalentNexus
   datasource:
-    url: jdbc:postgresql://rm-cn-8ly3w3yz200011ho.rwlb.rds.aliyuncs.com:5432/testdb
+    url: jdbc:postgresql://rm-cn-8ly3w3yz200011ho.rwlb.rds.aliyuncs.com:5432/talentnexus
     username: psqluser
     password: 031006wj-
     driver-class-name: org.postgresql.Driver
@@ -11,6 +11,22 @@ spring:
       database: 1
       port: 6379
       host: localhost
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: m99viceam@outlook.com  # 替换为你的 Outlook 邮箱地址
+    password: 104162mm              # 替换为你的密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 
 server:
   port: 8081
+
