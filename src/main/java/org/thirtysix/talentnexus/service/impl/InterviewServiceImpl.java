@@ -107,7 +107,7 @@ public class InterviewServiceImpl implements InterviewService{
         // 邮件内容构造
         String subject = "面试邀请";
         String body = String.format(
-                "尊敬的求职者，\n\n您已被邀请参加面试。\n\n面试详情：\n公司名称: %s\n职位名称: %s\n面试时间: %s \n面试链接: %s",
+                "尊敬的求职者，\n\n您已被邀请参加面试。\n\n面试详情：\n公司名称: %s\n职位名称: %s\n面试开始时间: %s \n面试链接: %s",
                 getCompanyName(interview.getCompanyId()),
                 getJobApplicationTitle(interview.getJobApplicationId()),
                 interview.getStartTime(),
