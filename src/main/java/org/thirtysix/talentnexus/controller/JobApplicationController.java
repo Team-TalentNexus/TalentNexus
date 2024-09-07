@@ -121,4 +121,16 @@ public class JobApplicationController {
         }
     }
 
+    @GetMapping("/company/apply/count")
+    public ApiResponse<Integer> companyGetApplicationsCount(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.COMPANY)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        String currentUsername = (String) request.getAttribute("username");
+        Integer currentId = companyService.getCompanyIdByUsername(currentUsername);
+
+        return ApiResponse.success(jobApplicationService.getActiveApplicationNumByCompanyId(currentId));
+    }
 }

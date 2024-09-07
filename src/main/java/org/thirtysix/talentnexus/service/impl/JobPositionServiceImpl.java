@@ -8,6 +8,8 @@ import org.thirtysix.talentnexus.mapper.JobPositionMapper;
 import org.thirtysix.talentnexus.pojo.JobPosition;
 import org.thirtysix.talentnexus.service.JobPositionService;
 
+import java.util.List;
+
 @Service
 public class JobPositionServiceImpl implements JobPositionService {
     private static final Logger LOGGER = LogManager.getLogger(JobPositionServiceImpl.class);
@@ -51,6 +53,28 @@ public class JobPositionServiceImpl implements JobPositionService {
 
     @Override
     public Integer getCompanyIdById(Integer id) {
-        return jobPositionMapper.getCompanyIdById(id);
+        try {
+            return jobPositionMapper.getCompanyIdById(id);
+        } catch (Exception e) {
+            LOGGER.error("Error getCompanyIdById: id {}", id);
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<JobPosition> getJobPositionsByCompanyId(Integer id, Integer page, Integer size) {
+        try {
+            return jobPositionMapper.getJobPositionsByCompanyId(id, size, (page - 1) * size);
+        } catch (Exception e) {
+            LOGGER.error("Error getPositionsByCompanyId: id {}", id);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Integer getJobPositionsCountByCompanyId(Integer id) {
+        return jobPositionMapper.getJobPositionsCountByCompanyId(id);
     }
 }
