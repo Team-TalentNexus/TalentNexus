@@ -6,7 +6,6 @@ import org.thirtysix.talentnexus.mapper.CompanyMapper;
 import org.thirtysix.talentnexus.mapper.InterviewMapper;
 import org.thirtysix.talentnexus.mapper.JobApplicationMapper;
 import org.thirtysix.talentnexus.pojo.Interview;
-import org.thirtysix.talentnexus.pojo.JobPosition;
 import org.thirtysix.talentnexus.pojo.JobSeeker;
 import org.thirtysix.talentnexus.service.EmailService;
 import org.thirtysix.talentnexus.service.InterviewService;
