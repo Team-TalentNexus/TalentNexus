@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.thirtysix.talentnexus.pojo.JobPosition;
 
+import java.util.List;
+
 @Mapper
 public interface JobPositionMapper {
     @Select("SELECT count(*) FROM job_positions WHERE id = #{id} AND active = true")
@@ -22,4 +24,7 @@ public interface JobPositionMapper {
 
     @Select("SELECT company_id FROM job_positions WHERE id = #{id}")
     Integer getCompanyIdById(Integer id);
+
+    @Select("SELECT * FROM job_positions WHERE company_id = #{id} LIMIT #{size} OFFSET #{offset}")
+    List<JobPosition> getJobPositionsByCompanyId(Integer id, Integer size, Integer offset);
 }
