@@ -68,22 +68,22 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
     // 根据公司ID获取求职者邮箱
     private String getCompanyEmail(Integer companyId) {
-        return companyMapper.getCompanyNameById(companyId);
+        return companyMapper.getEmailById(companyId);
     }
 
     private void sendAppicationEmail(JobApplication jobApplication) {
         // 邮件内容构造
         String subject = "职位申请";
         String body = String.format(
-                "尊敬的%s公司，\n\n我的职位申请已经投递。\n\n申请详情：\n申请人: %s\n申请职位名称: %s\n简历Id: %d",
+                "尊敬的%s公司，\n\n我的职位申请已经投递。\n\n申请详情：\n申请人: %s\n申请职位名称: %s",
                 getCompanyName(getCompanyId(jobApplication.getJobPositionId())),
                 getJobSeekerName(jobApplication.getJobSeekerId()),
-                getPositionName(jobApplication.getJobPositionId()),
-                jobApplication.getResumeId()
+                getPositionName(jobApplication.getJobPositionId())
         );
         // 公司的邮箱是通过companyId获取的
-        String jobSeekerEmail = getCompanyEmail(getCompanyId(jobApplication.getJobPositionId()));
-        emailService.sendEmail(jobSeekerEmail, subject, body);
+        String companyEmail = getCompanyEmail(getCompanyId(jobApplication.getJobPositionId()));
+        System.out.println(companyEmail);
+        emailService.sendEmail(companyEmail, subject, body);
     }
 
     @Override
