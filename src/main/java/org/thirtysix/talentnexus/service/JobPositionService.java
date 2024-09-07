@@ -11,4 +11,5 @@ public interface JobPositionService {
     boolean deleteById(Integer id);
     Integer getCompanyIdById(Integer id);
     List<JobPosition> getJobPositionsByCompanyId(Integer id, Integer page, Integer size);
+    Integer getJobPositionsCountByCompanyId(Integer id);
 }

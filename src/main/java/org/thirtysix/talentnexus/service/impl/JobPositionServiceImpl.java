@@ -72,4 +72,9 @@ public class JobPositionServiceImpl implements JobPositionService {
 
         return null;
     }
+
+    @Override
+    public Integer getJobPositionsCountByCompanyId(Integer id) {
+        return jobPositionMapper.getJobPositionsCountByCompanyId(id);
+    }
 }

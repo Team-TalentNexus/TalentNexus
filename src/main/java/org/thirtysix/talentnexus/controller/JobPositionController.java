@@ -85,4 +85,17 @@ public class JobPositionController {
 
         return ApiResponse.success(jobPositionService.getJobPositionsByCompanyId(currentId, page, size));
     }
+
+    @GetMapping("/count")
+    public ApiResponse<Integer> companyGetJobPositionsCount(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if(!role.equals(ConstUtil.COMPANY)) {
+            return ApiResponse.error(401, "没有权限");
+        }
+
+        String username = (String) request.getAttribute("username");
+        Integer currentId = companyService.getCompanyIdByUsername(username);
+
+        return ApiResponse.success(jobPositionService.getJobPositionsCountByCompanyId(currentId));
+    }
 }
