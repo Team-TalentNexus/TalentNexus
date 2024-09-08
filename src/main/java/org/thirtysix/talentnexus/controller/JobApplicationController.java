@@ -29,9 +29,6 @@ public class JobApplicationController {
     private JobPositionService jobPositionService;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
     private CompanyService companyService;
 
     @PostMapping("/seeker/apply/{job_position_id}")
@@ -52,6 +49,11 @@ public class JobApplicationController {
 
         String currentUsername = (String) request.getAttribute("username");
         Integer currentId = jobSeekerService.getIdByUsername(currentUsername);
+        Integer num = jobApplicationService.getCountBySeekerIdAndPositionId(currentId, jobPositionId);
+        if(num >= 1) {
+            return ApiResponse.error(400, "请勿重复投递");
+        }
+
         jobApplication.setJobSeekerId(currentId);
 
         // 获取简历id
@@ -59,7 +61,6 @@ public class JobApplicationController {
         jobApplication.setResumeId(resumeId);
 
         if(jobApplicationService.submitApplication(jobApplication)) {
-            messagingTemplate.convertAndSend("/topic/notifications", "收到新的申请，职位: " + title);
             return ApiResponse.success("");
         }
 

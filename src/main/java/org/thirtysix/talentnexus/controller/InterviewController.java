@@ -4,8 +4,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.thirtysix.talentnexus.pojo.Interview;
+import org.thirtysix.talentnexus.pojo.JobApplication;
 import org.thirtysix.talentnexus.service.CompanyService;
 import org.thirtysix.talentnexus.service.InterviewService;
+import org.thirtysix.talentnexus.service.JobApplicationService;
 import org.thirtysix.talentnexus.util.ApiResponse;
 import org.thirtysix.talentnexus.util.ConstUtil;
 
@@ -13,6 +15,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/company/interview")
+@CrossOrigin(origins = "http://localhost:8082")
 public class InterviewController {
 
     @Autowired
@@ -20,6 +23,9 @@ public class InterviewController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private JobApplicationService jobApplicationService;
 
     /**
      * 创建面试
@@ -43,6 +49,7 @@ public class InterviewController {
         // 调用服务层方法创建面试
         Integer interviewId = interviewService.createInterview(interview);
         if (interviewId != null) {
+            jobApplicationService.updateSetInterviewingById(interview.getJobApplicationId());
             return ApiResponse.success(interviewId);
         }
         return ApiResponse.error(500, "创建面试失败");
